@@ -1,0 +1,252 @@
+{% extends "portal/kmbomenu.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block konteudu1 %}
+
+<style>
+  /* Container Chart */
+  #projetuChart {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto 2rem auto;
+    background-color: #fefefe;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    padding: 20px;
+  }
+
+  /* Box projetu */
+  .box {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    padding: 15px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  }
+  .box.featured {
+    border-left: 5px solid #3696eb; /* Azul */
+  }
+
+  /* Titulu projetu */
+  .box ul li strong {
+    font-size: 1.2rem;
+    color: #333;
+  }
+
+  .box ul li small {
+    color: #666;
+    font-style: italic;
+  }
+
+  .box ul li {
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  /* Progress bar container */
+  .progress {
+    background-color: #eaeaea;
+    border-radius: 8px;
+    height: 12px !important;
+    overflow: hidden;
+  }
+
+  /* Progress bar azul */
+  .progress-bar {
+    transition: width 0.6s ease;
+    background-color: #3696eb;
+  }
+
+  /* Progress bar verde */
+  .progress-bar.bg-success {
+    background-color: #4bc0c0 !important;
+  }
+
+  /* Texto progress */
+  .text-muted {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 5px;
+    display: block;
+  }
+
+  /* Responsive grid tweaks */
+  @media (max-width: 767px) {
+    .box {
+      margin-bottom: 20px;
+    }
+  }
+
+</style>
+
+<main id="main">
+  <!-- ======= Breadcrumbs ======= -->
+  <section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>{% trans "Projetu" %}</h2>
+        <ol>
+          <li><a href="{% url 'dashboardkmbo' %}">{% trans "Baranda" %}</a></li>
+          <li>{% trans "Projetu Sira" %}</li>
+        </ol>
+      </div>
+    </div>
+  </section><!-- End Breadcrumbs -->
+  <section id="servisu" class="services section-bg">
+    <div class="container" data-aos="fade-up">
+
+      <div class="row mb-5 text-center">
+        <div class="col-lg-12">
+          <h3 class="mb-4">{% trans "PROJETU SIRA" %}</h3>
+          <canvas id="projetuChart"></canvas>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          <h3 class="mb-4">{% trans "Projetu iha Prosesu" %}</h3>
+          {% if prosesu %}
+            {% for p in prosesu %}
+              <div class="box featured mb-4">
+                <ul>
+                  <li>
+                    <strong>{{ p.titlu }}</strong><br>
+                    <small>{{ p.data_inicio|date:"F Y" }} - {{ p.data_final|default:"(La Kompleta)" }}</small><br>
+                    {{ p.deskrisaun }}
+                  </li>
+                </ul>
+                <div class="progress mt-3">
+                  <div class="progress-bar" role="progressbar" style="width: {{ p.porsentu }}%;"
+                       aria-valuenow="{{ p.porsentu }}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small class="text-muted">{{ p.porsentu }}% {% trans "implementasaun" %}</small>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p><em>{% trans "La iha projetu iha prosesu." %}</em></p>
+          {% endif %}
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+          <h3 class="mb-4">{% trans "Projetu Kumpri" %}</h3>
+          {% if kompri %}
+            {% for p in kompri %}
+              <div class="box mb-4">
+                <ul>
+                  <li>
+                    <strong>{{ p.titlu }}</strong><br>
+                    <small>{{ p.data_inicio|date:"F Y" }} - {{ p.data_final|default:"(La Kompleta)" }}</small><br>
+                    {{ p.deskrisaun }}
+                  </li>
+                </ul>
+                <div class="progress mt-3">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: {{ p.porsentu }}%;"
+                       aria-valuenow="{{ p.porsentu }}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small class="text-muted">{{ p.porsentu }}% {% trans "Remata" %}</small>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p><em>{% trans "La iha projetu kumpri." %}</em></p>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('projetuChart').getContext('2d');
+
+  const labels = [
+    {% for p in prosesu %}
+      "{{ p.titlu }}"{% if not forloop.last or kompri %}, {% endif %}
+    {% endfor %}
+    {% for p in kompri %}
+      "{{ p.titlu }}"{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+  ];
+
+  const data = [
+    {% for p in prosesu %}
+      {{ p.porsentu }}{% if not forloop.last or kompri %}, {% endif %}
+    {% endfor %}
+    {% for p in kompri %}
+      {{ p.porsentu }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+  ];
+
+  const backgroundColors = [
+    {% for p in prosesu %}
+      'rgba(54, 162, 235, 0.7)'{% if not forloop.last or kompri %}, {% endif %}
+    {% endfor %}
+    {% for p in kompri %}
+      'rgba(75, 192, 192, 0.7)'{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+  ];
+
+  const projetuChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Porcentajen Projetu',
+        data: data,
+        backgroundColor: backgroundColors,
+        borderColor: backgroundColors.map(c => c.replace('0.7', '1')),
+        borderWidth: 1,
+        borderRadius: 6,  // fo cantu arredonda ba barra
+        barPercentage: 0.6,
+        categoryPercentage: 0.6
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          enabled: true,
+          callbacks: {
+            label: function(context) {
+              return context.parsed.y + '%';
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            stepSize: 10,
+            callback: function(value) {
+              return value + '%';
+            }
+          }
+        },
+        x: {
+          ticks: {
+            maxRotation: 45,
+            minRotation: 30,
+            autoSkip: false,
+            maxTicksLimit: 15,
+            font: {
+              size: 12
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
+
+{% endblock %}

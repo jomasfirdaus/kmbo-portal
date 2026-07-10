@@ -1,0 +1,100 @@
+{% extends "portal/kmbomenu.html" %} 
+{% load crispy_forms_tags %} 
+{% block konteudu1 %} 
+{% load i18n %}
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>{% trans "Kona-ba Ami" %}</h2>
+        <ol>
+          <li><a href="{% url 'dashboardkmbo' %}">{% trans "Baranda" %}</a></li>
+          <li>{% trans "História, Vizãun, Objetivu Prinsipál, Misaun" %}</li>
+        </ol>
+      </div>
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  <!-- ======= About Us Section ======= -->
+  <section id="about-us" class="about-us">
+    <div class="container" data-aos="fade-up">
+
+      <div class="row content">
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+          {% for dados in vizaunmisaun %}
+
+          <!-- História -->
+          <div class="info-card">
+            <h4 class="info-title">
+              <i class="bi bi-book-half text-primary me-2"></i> {% trans "História" %}
+            </h4>
+            <p class="preview-text">{{ dados.historia|safe }}</p>
+          </div>
+
+          <!-- Vizãun -->
+          <div class="info-card">
+            <h4 class="info-title">
+              <i class="bi bi-eye-fill text-success me-2"></i> {% trans "Vizãun" %}
+            </h4>
+            <p class="preview-text">{{ dados.vizaun|safe }}</p>
+          </div>
+          
+        </div>
+
+        <div class="col-lg-6 pt-4 pt-lg-0" data-aos="fade-left">
+
+          <!-- Objetivu Prinsipál -->
+          <div class="info-card">
+            <h4 class="info-title">
+              <i class="bi bi-bullseye text-danger me-2"></i> {% trans "Objetivu Prinsipál" %}
+            </h4>
+            <p class="preview-text">{{ dados.objetivuprincipal|safe }}</p>
+          </div>
+
+          <!-- Misaun -->
+          <div class="info-card">
+            <h4 class="info-title">
+              <i class="bi bi-flag-fill text-warning me-2"></i> {% trans "Misaun" %}
+            </h4>
+            <p class="preview-text">{{ dados.misaun|safe }}</p>
+          </div>
+
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section><!-- End About Us Section -->
+
+</main><!-- End #main -->
+
+<!-- ======= Custom CSS ======= -->
+<style>
+  .info-card {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease;
+  }
+  .info-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .info-title {
+    color: #3498db;
+    margin-bottom: 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+  .preview-text {
+    color: #666;
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+    font-size: 0.92rem;
+    text-align: justify;
+  }
+</style>
+{% endblock %}

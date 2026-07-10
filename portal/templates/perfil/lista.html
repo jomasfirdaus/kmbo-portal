@@ -1,0 +1,107 @@
+{% extends "portal/main.html" %}
+
+{% load static %}
+{% load sbr_id_jms %}
+{% load i18n %}
+{% block content %}
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+              <div class="clearfix"></div>
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+            <div class="x_title">
+                {% if request.user.groups.all.0.name == 'admin' %}
+                    <a href="{% url 'rejistuuzuariu' %}" class="btn btn-labeled" style="color: white; text-decoration: none;">
+                        <span class="btn-label"><i class="fa fa-plus-circle"></i></span> Aumenta
+                    </a>
+                    <span class="lapiz-style">Registu</span>
+                {% endif %}
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+                <table id="datatable" class="table table-striped table-bordered small-table">
+                    <thead>
+                        <tr>
+                            <th width="3%">{% trans "Nu" %}</th>
+                            <th width="20%">{% trans "Naran" %}</th>
+                            <th width="16%">{% trans "Email" %}</th>
+                            <th width="7%">{% trans "Kontaktu" %}</th>
+                            <th width="18%">{% trans "Pozisaun" %}</th>
+                            <th width="16%">{% trans "Username" %}</th>
+                            <th width="3%">{% trans "Foto" %}</th>
+                            <th width="7%">{% trans "Level" %}</th>
+                            <th width="10%"><i class="fa fa-cogs"></i> {% trans "Asaun" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for uzuariu in uzuariu %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ uzuariu.naran }}</td>
+                            <td>{{ uzuariu.email }}</td>
+                            <td>{{ uzuariu.kontaktu }}</td>
+                            <td>{{ uzuariu.pozisaun }}</td>
+                            <td>{{ uzuariu.user.username }}</td>
+                            <td>
+                                {% if uzuariu.fotografia and uzuariu.fotografia.url %}
+                                    <i class="fa fa-image" style="font-size: 24px; cursor: pointer;" data-toggle="modal" data-target="#imageModal{{ uzuariu.id }}" data-toggle="tooltip" title="Hare Imajen"></i>
+                                    <div class="modal fade" id="imageModal{{ uzuariu.id }}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel{{ uzuariu.id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-sm" role="document">
+                                            <div class="modal-content custom-modal">
+                                                <div class="modal-body">
+                                                    <img src="{{ uzuariu.fotografia.url }}" class="img-fluid" alt="Uzuariu Fotografia" style="width: 100%; height: 200px; object-fit: contain;">
+                                                </div>
+                                                <div class="text-center">
+                                                    <button type="button" class="small-xs" data-dismiss="modal" aria-label="Close" data-toggle="tooltip" title="Fila">
+                                                        <i class="fa fa-close"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <i class="fa fa-image" style="font-size: 20px; color: rgb(60, 59, 59);" data-toggle="tooltip" title="La iha Imajen"></i>
+                                {% endif %}
+                            </td>
+                            <td>{{ uzuariu.user.groups.first.name }}</td>
+                            <td class="text-center">
+                                <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#confirmDeleteModal{{ uzuariu.id }}" title="Hamos">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <!-- Modal de confirmação -->
+                        <div class="modal fade" id="confirmDeleteModal{{ uzuariu.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content"><br>
+                                    <h5 class="modal-title text-center">Konfirmasaun...!</h5><br>
+                                    <div class="modal-body text-center">
+                                        <p>Ita Boot hakarak apaga dados?</p><br>
+                                        <a href="{% url 'hamosuzuariu' id=uzuariu.id %}" class="btn btn-xs btn-danger">
+                                            <i class="fa fa-trash" style="color: rgb(251, 251, 251);"></i> Hamos
+                                        </a>
+                                        <button type="button" class="btn btn-danger btn-xs" onclick="window.history.back();"><i class="fa fa-close"></i> Kansela</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- /page content -->
+    {% endblock %}

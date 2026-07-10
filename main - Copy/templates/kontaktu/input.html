@@ -1,0 +1,277 @@
+{% extends "portal/kmbomenu.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block konteudu1 %}
+<main id="main">
+  <!-- Breadcrumbs -->
+  <section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>{% trans "Informasaun kontaktu" %}</h2>
+        <ol>
+          <li><a href="/">{% trans "Baranda" %}</a></li>
+          <li>{% trans "Informasaun kontaktu" %}</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+      <div class="section-header text-center mb-4">
+        <h2>{% trans "Kontaktu" %}</h2>
+        <p>{% trans "Atu hatene informasaun klaru, bele kontaktu ami liu husi Email, Telemovel ka vizita direktu." %}</p>
+      </div>
+
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} bg-warning" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+
+      <div class="row">
+        <!-- LEFT COL: Info + Map -->
+        <div class="col-md-6">
+          <div class="info mb-4 p-3 bg-light rounded shadow-sm ">
+            
+            <!-- Enderesu -->
+            <div class="mb-3 d-flex align-items-start">
+              <i class="bi bi-geo-alt-fill fs-3 text-danger me-2"></i>
+              <div>
+                <h4>{% trans "Sede Prinsipal" %}</h4>
+                <p>{{ kontaktuami.lokalizasaun|default:"-" }} </p>
+              </div>
+            </div>
+            <!-- Sukursal -->
+            <div class="mb-3 d-flex align-items-start">
+              <i class="bi bi-building fs-3 text-warning me-2"></i>
+              <div>
+                <h4>{% trans "Sukursal" %}</h4>
+                <p>{{ kontaktuami.sukursal|default:"-" }}</p>
+              </div>
+            </div>
+        
+            <!-- Website -->
+            <div class="mb-3 d-flex align-items-start">
+              <i class="bi bi-globe fs-3 text-primary me-2"></i>
+              <div>
+                <h4>{% trans "Website" %}</h4>
+                <p><a href="{{ kontaktuami.website }}" target="_blank" class="text-decoration-none">{{ kontaktuami.website|default:"-" }}</a></p>
+              </div>
+            </div>
+        
+            <!-- Email -->
+            <div class="mb-3 d-flex align-items-start">
+              <i class="bi bi-envelope fs-3 text-success me-2"></i>
+              <div>
+                <h4>Email</h4>
+                <p><a href="mailto:{{ kontaktuami.email }}" class="text-decoration-none">{{ kontaktuami.email|default:"-" }}</a></p>
+              </div>
+            </div>
+        
+            <!-- Telemovel -->
+            <div class="mb-3 d-flex align-items-start">
+              <i class="bi bi-phone fs-3 text-danger me-2"></i>
+              <div>
+                <h4>{% trans "Telemovel" %}</h4>
+                <p><a href="tel:{{ kontaktuami.numerutelemovel }}" class="text-decoration-none">{{ kontaktuami.numerutelemovel|default:"-" }}</a></p>
+              </div>
+            </div>
+        
+          </div>
+        
+          <!-- Mapa -->
+          <div class="map-section rounded shadow-sm overflow-hidden">
+            <div class="section-title text-center py-2 bg-white">
+              <h4>{% trans "Mapa Lokalizasaun" %}</h4>
+            </div>
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7885.226432153383!2d125.2390954!3d-8.9887526!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2bb24de7fa705f3d%3A0x329f3f685bb9e60b!2sRamascora%20Resort%20Hotel!5e0!3m2!1sen!2stl!4v1716039523450!5m2!1sen!2stl" 
+              width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy">
+            </iframe>
+            <div class="map-markers mt-3 text-center">
+              <a href="https://maps.google.com/?q=Ramascora+Resort+Hotel" target="_blank" class="marker kmbo-red">
+                <i class="ri-map-pin-fill"></i> Sede Sukursal Dili
+              </a>
+              <a href="https://maps.google.com/?q=Ramascora+Resort+Hotel" target="_blank" class="marker kmbo-red">
+                <i class="ri-map-pin-fill"></i> Sede Prinsipal Maliana
+              </a>
+            </div>
+          </div>
+        </div>
+        
+
+        <!-- RIGHT COL: Form -->
+        <div class="col-md-6">
+          <div class="p-4 bg-light rounded shadow-sm">
+            <h4 class="mb-3">{% trans "Formuláriu Kontaktu" %}</h4>
+            {% crispy form %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<style>
+  /* General Styles */
+  .contact .info {
+    background-color: #f8f9fa;
+    border-left: 4px solid #e74c3c;
+    transition: all 0.3s ease;
+  }
+
+  .contact .info:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+
+  .contact .info i {
+    font-size: 24px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+  }
+
+  .contact .info:hover i {
+    transform: scale(1.2);
+  }
+
+  /* Map Section */
+  .map-section {
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+  }
+
+  .map-section:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .map-section .section-title {
+    border-bottom: 2px solid #e74c3c;
+  }
+
+  /* Marker Style */
+  .marker.kmbo-red {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-decoration: none;
+    color: #e74c3c;
+    font-weight: 500;
+    border-left: 4px solid #e74c3c;
+    transition: all 0.3s ease;
+  }
+
+  .marker.kmbo-red:hover {
+    background-color: #e74c3c;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+  }
+
+  .marker.kmbo-red:hover i {
+    color: white;
+  }
+
+  .marker.kmbo-red i {
+    color: #e74c3c;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+  }
+
+  /* Form Section */
+  .bg-light.rounded {
+    transition: all 0.3s ease;
+  }
+
+  .bg-light.rounded:hover {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+
+  /* Alert Animation */
+  .alert {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .alert:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 3px;
+    background-color: rgba(0,0,0,0.2);
+    animation: progressBar 3s linear forwards;
+  }
+
+  @keyframes progressBar {
+    0% { width: 100%; }
+    100% { width: 0%; }
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .contact .info {
+      margin-bottom: 30px;
+    }
+    
+    .map-section {
+      margin-bottom: 30px;
+    }
+  }
+
+  /* Form Input Styling */
+  #contact-form input, 
+  #contact-form textarea, 
+  #contact-form select {
+    border-radius: 0;
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    transition: all 0.3s;
+  }
+
+  #contact-form input:focus, 
+  #contact-form textarea:focus, 
+  #contact-form select:focus {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
+  }
+
+  /* Submit Button */
+  .btn-primary {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+    padding: 10px 25px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+  }
+
+  .btn-primary:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+    transform: translateY(-2px);
+  }
+</style>
+<script>
+  // Animação para alertas
+  document.querySelectorAll('.alert').forEach(function(alert) {
+        setTimeout(function() {
+            alert.style.transition = 'opacity 200ms ease-out';
+            alert.style.opacity = 0;
+            setTimeout(function() {
+                alert.remove();
+            }, 300);
+        }, 3000);
+    });
+    
+
+</script>
+{% endblock %}

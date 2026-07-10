@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Para A Qualidade De Timor Leste</title>
+    <link rel="icon" href="{% static 'assetsmkbo/img/kmbologo.jpeg' %}">
+    <style>
+        /* Estilo para a página de login */
+        body.login {
+            background: url("{% static 'assetsmkbo/img/kmbologo.jpeg' %}") center/cover no-repeat;
+            height: 100vh; /* muda ba 100vh se ita hakarak full screen */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+
+        /* Container para dividir a tela em duas partes */
+        .login-container {
+            display: flex;
+            width: 60%;
+            height: 60vh;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* Parte esquerda para o formulário de login */
+        .login-section, .message-section {
+            width: 50%;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        .login-section {
+            background-color: rgba(211, 212, 209, 0.957);
+        }
+
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        /* Estilo para botões */
+        .login-form button {
+            width: 100%;
+            max-width: 200px;
+            padding: 10px 20px; 
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            font-size: 18px; 
+            cursor: pointer; 
+            text-align: center; 
+            margin: 0 auto; 
+            display: block; 
+        }
+
+        .login-form button:hover {
+            background-color: #da4227; 
+        }
+
+        .login-form a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .login-form a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilo para a seção de mensagens */
+        .message-section {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        .message-section h2 {
+            font-size: 36px; /* Increased from 28px */
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase; /* Makes text all uppercase */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Adds subtle shadow */
+        }
+
+        .message-section p {
+            font-size: 16px;
+        }
+
+        /* CSS para logo */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-logo {
+            width: 80px; 
+            height: auto;
+            border-radius: 50%; 
+            border: 2px solid white; 
+        }
+
+        /* Estilo para botão danger */
+        .btn-danger {
+            background-color: #d9534f; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            text-align: center; 
+            text-decoration: none; 
+            display: inline-block; 
+            font-size: 16px; 
+            margin: 4px 2px; 
+            cursor: pointer; 
+            border-radius: 5px; 
+            transition: background-color 0.3s; 
+        }
+
+        .btn-danger:hover {
+            background-color: #c9302c; 
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column; 
+                width: 90%; 
+                height: auto; /* Adjust height to fit content */
+            }
+            
+            .login-section, .message-section {
+                width: 100%; 
+                height: auto;
+                padding: 20px; /* Adjust padding for smaller screens */
+            }
+
+            .message-section h2 {
+                font-size: 24px; /* Smaller font size for mobile */
+                margin-top: 0; /* Remove extra top margin */
+            }
+            
+            .message-section p {
+                font-size: 14px; /* Smaller font size for mobile */
+                padding: 0 10px; /* Add padding for readability */
+            }
+
+            .login-form input, .login-form button {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .login-form button {
+                max-width: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .message-section h2 {
+                font-size: 20px;
+            }
+
+            .login-form input, .login-form button {
+                font-size: 12px;
+                padding: 6px;
+            }
+        }
+    </style>
+</head>
+<body class="login">
+    <div class="login-container">
+        <div class="login-section">
+            <div class="login-form">
+                <div class="logo-container">
+                    <img src="{% static 'vendors/img/admin.png' %}" alt="Logo" class="login-logo">
+                </div>
+                <form action="" method="POST" id="formAuthentication">
+                    {% csrf_token %}
+                    <input type="text" name="email" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button type="submit">Tama</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="message-section">
+            <div>
+                <h2>ATENSAUN...!</h2>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="btn-danger">{{ message }}</div>
+                    {% endfor %}
+                {% else %}
+                    <p>
+                        Favor hatama ita-boot nia username & password antes atu asesu ba dashboard sistema. 
+                    </p>
+                {% endif %}
+                <div class="logo-container">
+                    <img src="{% static 'vendors/img/key.jpeg' %}" alt="Logo" class="login-logo">
+                </div>
+            </div>
+            <div class="copyright">
+                Copyright &copy; {% now 'Y' %} <strong>KMBO</strong>. All Rights Reserved.
+            </div>
+            <div class="credits">
+                Designed by <b>Developer KMBO</b>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showAlert(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'btn-danger';
+            alertDiv.textContent = message;
+    
+            document.querySelector('.message-section > div').prepend(alertDiv);
+    
+            setTimeout(() => {
+                alertDiv.style.transition = "opacity 0.5s ease-out";
+                alertDiv.style.opacity = 0;
+                setTimeout(() => alertDiv.remove(), 500);
+            }, 3000);
+        }
+    
+        document.querySelectorAll('.btn-danger').forEach(alert => {
+            setTimeout(() => {
+                alert.style.transition = "opacity 0.5s ease-out";
+                alert.style.opacity = 0;
+                setTimeout(() => alert.remove(), 500);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

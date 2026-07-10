@@ -1,0 +1,108 @@
+{% extends "portal/main.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load sbr_id_jms %}
+{% load i18n %}
+
+{% block content %}
+<!-- page content -->
+<div class="right_col" role="main">
+  <div class="clearfix"></div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+            
+            <a class="btn btn-xs btn-danger" href="{% url 'listanoti' %}">
+                <i class="fa fa-chevron-right"></i> FILA
+            </a>
+            <span class="lapiz-style">Titlu Notisia</span> : <b>{{ noti.titlu }}</b>,
+            <span class="lapiz-style">Kategoria</span> : <b>{{ noti.kategoria.naran }}</b>     
+            <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="x_content">
+            <div class="table-responsive">
+                <table class="table table-striped jambo_table bulk_action">
+                    <thead>
+                        <tr>
+                            <th width="50%">{% trans "Konteudu" %}</th>
+                            <th width="10%">Imajen</th>
+                            <th width="15%">{% trans "Data Publikasaun" %}</th>
+                            <th width="25%">{% trans "Status" %}</th>                 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ noti.konteudu|safe }}</td>
+                            <td>
+                                {% if dados.imajen.image and dados.imajen.image.url %}
+                                    <img src="{{ dados.imajen.image.url }}" width="100px" height="100px">
+                                {% else %}
+                                    <p>No image available</p>
+                                {% endif %}
+                            </td>
+                            <td>{{ noti.datapublika }}</td>
+                            <td class="text-center">
+                                {% if noti.status == "Pendente" %}
+                                    {% if request.user.groups.all.0.name == 'admin' %}
+                                        <span class="btn btn-danger btn-sm">Konfirmasaun...<i class="fa fa-exclamation"></i> <br>
+                                            karik konteudu notisia Los ona, <br> Favor Klik iha button Review </span><br>
+                                            <i class="fa fa-arrow-down"></i><br>
+                                        <a href="{% url 'reviewona' noti.id|encrypt_id_tag %}" class="btn btn-info btn-xs">{% trans "Review" %}</a>
+                                    {% elif request.user.groups.all.0.name == 'admin' %}
+                                    <span class="btn btn-danger btn-sm">Atensaun...<i class="fa fa-exclamation"></i> <br>
+                                        Notisia sei pendente, favor hein <br> review husi editor hafoin bele publika.</span>
+                                    {% elif request.user.groups.all.0.name == 'ekipa' %}
+                                        <span class="btn btn-danger btn-sm">Atensaun...<i class="fa fa-exclamation"></i> <br>
+                                        Notisia sei pendente, favor hein <br> review husi editor hafoin bele publika.</span>
+                                    {% endif %}
+                                {% elif noti.status == "Review" %}
+                                    {% if request.user.groups.all.0.name == 'editor' %}
+                                            <span class="btn btn-info btn-sm"><i class="fa fa-exclamation"></i><br>
+                                        Notisia review ona, maibe <br> seidauk publika husi ekipa.</span><br>
+                                    {% elif request.user.groups.all.0.name == 'admin' %}
+                                    <span class="btn btn-danger btn-sm">
+                                        Karik Notisia los ona, favor <br> klik butaun publika</span><br>
+                                        <a href="{% url 'publika' noti.id|encrypt_id_tag %}" class="btn btn-info btn-xs">{% trans "Publika" %}</a>
+                                    {% elif request.user.groups.all.0.name == 'ekipa' %}
+                                    <span class="btn btn-danger btn-sm">
+                                        Karik Notisia los ona, favor <br> klik butaun publika</span>
+                                        <a href="{% url 'publika' noti.id|encrypt_id_tag %}" class="btn btn-info btn-xs">{% trans "Publika" %}</a>
+                                    {% endif %}
+                                {% elif noti.status == "Publika" %}
+                                    {% if request.user.groups.all.0.name == 'admin' %}
+                                    <span class="btn btn-info btn-sm">Konfirmasaun...<i class="fa fa-exclamation"></i> <br>
+                                        Notisia publika ona, <br> favor akompana publikasaun.</span>
+                                        <a href="{% url 'kansela' noti.id|encrypt_id_tag %}" class="btn btn-danger btn-xs">{% trans "Kansela Publikasaun" %}</a>
+                                    {% elif request.user.groups.all.0.name == 'ekipa' %}
+                                    <span class="btn btn-info btn-sm">Konfirmasaun...<i class="fa fa-exclamation"></i> <br>
+                                        Notisia publika ona, <br> favor akompana publikasaun.</span>
+                                        <a href="{% url 'kansela' noti.id|encrypt_id_tag %}" class="btn btn-danger btn-xs">{% trans "Kansela Publikasaun" %}</a><br>
+                                    {% elif request.user.groups.all.0.name == 'editor' %}
+                                    <span class="btn btn-info btn-sm">Konfirmasaun...<i class="fa fa-exclamation"></i><br>Notisia publika ona husi ekipa,<br>favor acompanha publikasaun.</span>
+                                        
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        {% if request.user.groups.all.0.name == 'editor' %}
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                <a href="{% url 'editor' noti.id|encrypt_id_tag %}" class="btn btn-info btn-xs">{% trans "Halo Atualizasaun" %}</a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

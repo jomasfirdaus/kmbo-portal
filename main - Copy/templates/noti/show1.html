@@ -1,0 +1,143 @@
+{% extends "portal/sidebarkmbo.html" %} 
+{% load static %} 
+{% load crispy_forms_tags %} 
+{% block konteudu1 %}
+{% load i18n %}
+
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>{% trans "Notisia" %}</h2>
+        <ol>
+          <li><a href="{% url 'dashboardkmbo' %}">{% trans "Baranda" %}</a></li>
+          <li>{% trans "Notisia" %}</li>
+        </ol>
+      </div>
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  <!-- ======= Blog Section ======= -->
+  <section id="blog" class="blog">
+    <div class="container" data-aos="fade-up">
+
+      <div class="row">
+
+        <!-- Entries -->
+        <div class="col-lg-8 entries">
+
+          {% for dados in notisia %}
+            {% if dados.status == "Publika" %}
+              <article class="entry entry-single">
+
+                {% if dados.imajen %}
+                <div class="entry-img">
+                  <img src="{{ dados.imajen.image.url }}" alt="" class="img-fluid">
+                </div>
+                {% endif %}
+
+                <h2 class="entry-title">
+                  <a href="{% url 'shownotisia' slug=dados.slug %}">{{ dados.titlu }}</a>
+                </h2>
+
+                <div class="entry-meta">
+                  <ul>
+                    <li class="d-flex align-items-center">
+                      <i class="bi bi-person-circle" style="font-size: 1.5em; color: #007bff;"></i> 
+                      <a href="#">{{ dados.autor|default:"Admin" }}</a>
+                    </li>
+                    <li class="d-flex align-items-center">
+                      <i class="bi bi-calendar-event" style="font-size: 1.5em; color: #28a745;"></i> 
+                      <a href="#">
+                        <time datetime="{{ dados.datapublika|date:'Y-m-d' }}">
+                          {{ dados.datapublika|date:"M d, Y" }}
+                        </time>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                
+
+                <div class="entry-content">
+                  <p>{{ dados.konteudu|safe|truncatechars:180 }}</p>
+                  <div class="read-more">
+                    <a href="{% url 'shownotisia' slug=dados.slug %}">{% trans "Le'e Detallu" %}</a>
+                  </div>
+                </div>
+
+              </article>
+            {% endif %}
+          {% empty %}
+            <p>{% trans "La iha notisia publikadu." %}</p>
+          {% endfor %}
+
+          <!-- Pagination -->
+          {% if is_paginated %}
+          <div class="blog-pagination">
+            <ul class="justify-content-center">
+              {% if page_obj.has_previous %}
+              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+              {% endif %}
+              <li class="active"><a href="#">{{ page_obj.number }}</a></li>
+              {% if page_obj.has_next %}
+              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+              {% endif %}
+            </ul>
+          </div>
+          {% endif %}
+
+        </div><!-- End Entries -->
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+          <div class="sidebar">
+
+            <!-- Search -->
+            <h3 class="sidebar-title">{% trans "Peskija Informasaun" %}</h3>
+            <div class="sidebar-item search-form">
+              <form action="" method="get">
+                <input type="text" id="peskijaInput" placeholder="Buka...">
+                <button type="submit"><i class="bi bi-search"></i></button>
+              </form>
+            </div>
+
+            <!-- Category -->
+            <h3 class="sidebar-title">{% trans "Kategoria Informasaun" %}</h3>
+            <div class="sidebar-item categories">
+              <ul>
+                {% for kat in kategorias %}
+                  <li>
+                    <a href="?kategoria={{ kat.slug }}">{{ kat.naran }} <span>({{ kat.total }})</span></a>
+                  </li>
+                {% empty %}
+                  <li>{% trans "La iha kategoria." %}</li>
+                {% endfor %}
+              </ul>
+            </div>
+
+            <!-- Relevant News -->
+            <h3 class="sidebar-title">{% trans "Notisia Relevante" %}</h3>
+            <div class="sidebar-item recent-posts">
+              {% for item in notisiaseluk|slice:":3" %}
+                <div class="post-item clearfix">
+                  <img src="{{ item.imajen.image.url }}" alt="">
+                  <h4><a href="{% url 'shownotisia' slug=item.slug %}">{{ item.titlu }}</a></h4>
+                  <time datetime="{{ item.data_publica }}">{{ item.data_publica|date:"M d, Y" }}</time>
+                </div>
+              {% empty %}
+                <p>{% trans "La iha notisia relevante." %}</p>
+              {% endfor %}
+            </div>
+
+          </div><!-- End sidebar -->
+        </div><!-- End col-lg-4 -->
+
+      </div><!-- End row -->
+
+    </div>
+  </section><!-- End Blog Section -->
+
+</main>
+{% endblock %}

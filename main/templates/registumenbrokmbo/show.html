@@ -1,0 +1,670 @@
+{% extends "portal/kmbomenu.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load static %}
+
+{% block konteudu1 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<main id="main">
+  
+  <!-- Breadcrumbs -->
+   <!-- ======= Breadcrumbs ======= -->
+   <section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>{% trans "Membru KMBO" %}</h2>
+        <div>
+          <a href="{% url 'inputregistumenbrokmbo' %}" class="btn btn-success btn-action w-100 w-md-auto">
+            <i class="fa fa-plus me-2"></i> {% trans "Rejistu Menbro" %}
+          </a>
+        </div>
+        <ol>
+          <li><a href="{% url 'dashboardkmbo' %}" class="text-danger">{% trans "Baranda" %}</a></li>
+          <li class="text-danger">{% trans "Statistika Bobonaro Oan" %}</li>
+        </ol>
+      </div>
+    </div>
+  </section><!-- End Breadcrumbs -->
+  <!-- ===== MESSAGES SECTION ===== -->
+  {% if messages %}
+  <div class="container mt-3">
+      {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'success' %}success{% else %}info{% endif %} alert-dismissible fade show" role="alert">
+          <i class="fa {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %} me-2"></i>
+          {{ message|linebreaksbr }}  <!-- Para quebra linha iha mensagem -->
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+  </div>
+  {% endif %}
+
+  <style>
+    /* Estilos existentes */
+    .fixed_height_140 { height: 140px; min-height: 140px; }
+    .x_panel { transition: all 0.3s ease; border-radius: 10px; margin-bottom: 20px; border: 1px solid #e0e0e0; background: #fff; }
+    .x_panel:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .x_title { border-bottom: 2px solid #E6E9ED; padding: 10px 15px; margin-bottom: 10px; }
+    .x_title h2 { margin: 5px 0 6px; float: left; font-size: 16px; font-weight: 700; color: #333; }
+    .stats-overview { margin-bottom: 30px; }
+    
+    /* Ajuste ba gráfiku Chart.js */
+    .chart-container-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      padding: 20px 5px;
+    }
+    .pie-chart-visual {
+      width: 300px;
+      height: 300px;
+      position: relative;
+    }
+    .pie-chart-visual1 {
+      width: 180px;
+      height: 180px;
+      position: relative;
+    }
+    .pie-chart-visual canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .pie-legend-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 160px;
+      max-height: 200px;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+ 
+
+thead tr:first-child th{
+    background-color:#2c3e50;
+    color:white;
+    text-align:center;
+}
+
+thead tr:nth-child(2) th{
+    background-color:#3498db;
+    color:white;
+    text-align:center;
+}
+
+thead th{
+    vertical-align:middle;
+    font-weight:bold;
+}
+    .legend-row {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      color: #444;
+      font-weight: 500;
+    }
+    .color-indicator {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+    /* La bele hatudu persentajen iha legenda (tirante) */
+    .percent-label {
+      display: none;
+    }
+    
+    /* Mini-tabela */
+    .mini-table-section { margin-top: 30px; }
+    .mini-table { font-size: 14px; }
+    .mini-table thead {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    .mini-table th { font-weight: 600; padding: 12px !important; }
+    .mini-table td { padding: 12px !important; vertical-align: middle; }
+    .badge-stat {
+      font-size: 13px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: #007bff;
+      color: white;
+    }
+    .badge-stat-info { background: #17a2b8; }
+    .breadcrumbs {
+      padding: 20px 0;
+      background: #f8f9fa;
+    }
+    .breadcrumbs h2 { font-size: 24px; font-weight: 600; color: #333; }
+    .breadcrumbs ol {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .breadcrumbs ol li { padding: 0 5px; }
+    .breadcrumbs ol li + li::before {
+      content: "/";
+      padding-right: 5px;
+      color: #6c757d;
+    }
+    .btn-action {
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-weight: 500;
+    }
+    @media (max-width: 768px) {
+      .chart-container-wrapper { flex-direction: column; gap: 15px; }
+      .pie-chart-visual { width: 150px; height: 150px; }
+    }
+  </style>
+
+  <section class="container mt-4">
+    
+    <!-- ===== ESTATISTIKA OVERVIEW CARDS ===== (hanesan) -->
+    <div class="row stats-overview">
+      <!-- Card Total Membro -->
+      <div class="col-md-6 col-sm-6">
+        <div class="x_panel tile fixed_height_150" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white;">
+          <div class="x_title"><h2 style="color: white; "><i class="fa fa-users"></i> Total Membru</h2><div class="clearfix"></div></div>
+          <div class="x_content text-center">
+            <h1 style="font-size: 40px; margin: 0; color: white;">{{ total_membro }}</h1>
+            <p style="opacity: 0.9;">Bobonaro Oan Rejistadu</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Generu -->
+      <div class="col-md-6 col-sm-6">
+        <div class="x_panel tile fixed_height_150" style="background: linear-gradient(135deg, #4568DC 0%, #B06AB3 100%); color: white;">
+          <div class="x_title"><h2 style="color: white;"><i class="fa fa-venus-mars"></i> Generu</h2><div class="clearfix"></div></div>
+          <div class="x_content">
+            <div class="row text-center">
+              <div class="col-6"><h3>{{ total_feto }}</h3><p><i class="fa fa-female"></i> Feto</p></div>
+              <div class="col-6"><h3>{{ total_mane }}</h3><p><i class="fa fa-male"></i> Mane</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CHARTS ROW 1 ===== (Chart.js ho persentajen iha laran) -->
+    <div class="row">
+     
+      <!-- Postu -->
+      <div class="col-md-6 mb-4">
+        <div class="card stat-card">
+          <div class="card-header"><i class="fa fa-pie-chart me-2"></i> Distribuisaun Postu</div>
+          <div class="card-body">
+            <div class="chart-container-wrapper">
+              <div class="pie-chart-visual">
+                <canvas id="chartPostu"></canvas>
+              </div>
+              <div id="legendPostu" class="pie-legend-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <div class="card stat-card">
+          <div class="card-header"><i class="fa fa-pie-chart me-2"></i> Grupu Idade</div>
+          <div class="card-body">
+            <div class="chart-container-wrapper">
+              <div class="pie-chart-visual">
+                <canvas id="chartIdade"></canvas>
+              </div>
+              <div id="legendIdade" class="pie-legend-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tipu Servisu -->
+      
+      <div class="col-md-4 mb-4">
+        <div class="card stat-card">
+          <div class="card-header"><i class="fa fa-pie-chart me-2"></i> Fatin Servisu</div>
+          <div class="card-body">
+            <div class="chart-container-wrapper">
+              <div class="pie-chart-visual1">
+                <canvas id="chartFatinServisu"></canvas>
+              </div>
+              <div id="legendFatinServisu" class="pie-legend-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+       <!-- Generu -->
+       <div class="col-md-4 mb-4">
+        <div class="card stat-card">
+          <div class="card-header"><i class="fa fa-pie-chart me-2"></i> Distribuisaun Generu</div>
+          <div class="card-body">
+            <div class="chart-container-wrapper">
+              <div class="pie-chart-visual1">
+                <canvas id="chartGeneru"></canvas>
+              </div>
+              <div id="legendGeneru" class="pie-legend-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+      <div class="col-md-4 mb-4">
+        <div class="card stat-card">
+          <div class="card-header"><i class="fa fa-pie-chart me-2"></i> Hela Fatin Atual (Munisipiu)</div>
+          <div class="card-body">
+            <div class="chart-container-wrapper">
+              <div class="pie-chart-visual1">
+                <canvas id="chartHelaFatin"></canvas>
+              </div>
+              <div id="legendHelaFatin" class="pie-legend-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <div class="card stat-card">
+          <div class="card-header"><i class="fa fa-pie-chart me-2"></i> Habilitasaun Literaria</div>
+          <div class="card-body">
+            <div class="chart-container-wrapper">
+              <div class="pie-chart-visual">
+                <canvas id="chartHabilitasaun"></canvas>
+              </div>
+              <div id="legendHabilitasaun" class="pie-legend-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+      <div class="col-md-6 mb-4">
+        <div class="card stat-card">
+          <div class="card-header"><i class="fa fa-pie-chart me-2"></i> Tipu Servisu</div>
+          <div class="card-body">
+            <div class="chart-container-wrapper">
+              <div class="pie-chart-visual">
+                <canvas id="chartServisu"></canvas>
+              </div>
+              <div id="legendServisu" class="pie-legend-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   
+   
+
+    <!-- ===== MINI TABELA ESTATISTIKA ===== (mantén hanesan) -->
+    <div class="row">
+      <!-- Distribuisaun Postu (Mini) -->
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel" style="border-radius: 10px;">
+          <div class="x_title">
+            <h2><i class="fa fa-table"></i> Distribuisaun Membro husi Postu</h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <table class="table table-striped table-bordered" style="margin-bottom: 0;">
+              <thead>
+                <tr>
+                  <th rowspan="2">No</th>
+                  <th rowspan="2">Postu</th>
+                  <th rowspan="2">Total</th>
+              
+                  <th colspan="2">Géneru</th>
+              
+                  <th colspan="6">Habilitasaun Literária</th>
+              
+                  <th rowspan="2">%</th>
+                </tr>
+              
+                <tr>
+                  <!-- Generu -->
+                  
+                  <th>Feto</th>
+                  <th>Mane</th>
+              
+                  <!-- Habilitasaun -->
+                  <th>S1</th>
+                  <th>S2</th>
+                  <th>S3</th>
+                  <th>SMA</th>
+                  <th>SD</th>
+                  <th>Seluk</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for posto in posto_stats_mini %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ posto.nome }}</td>
+                  <td style="font-weight: bold; color: #28a745;">{{ posto.total }}</td>
+                  <td>{{ posto.feto }}</td>
+                  <td>{{ posto.mane }}</td>
+                  <td>{{ posto.s1 }}</td>
+                  <td>{{ posto.s2 }}</td>
+                  <td>{{ posto.s3 }}</td>
+                  <td>{{ posto.sma }}</td>
+                  <td>{{ posto.sd }}</td>
+                  <th>{{posto.seluk}}</th>
+                  <td style="font-weight: bold; color: #28a745;">
+                    {{ posto.percentual }}%
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Distribuisaun Profisaun (Mini) -->
+   <!-- Distribuisaun Profisaun (Matriz Postu x Servisu) -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+  <div class="x_panel" style="border-radius: 10px;">
+    <div class="x_title">
+      <h2><i class="fa fa-table"></i> Distribuisaun Profisaun/Servisu</h2>
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content" style="overflow-x: auto;">
+      <style>
+        .table-servico th, .table-servico td {
+          white-space: nowrap;
+          padding: 6px 4px !important;
+          font-size: 0.85rem;
+        }
+        .badge-total {
+          background: #007bff;
+          color: white;
+          padding: 3px 8px;
+          border-radius: 12px;
+          font-size: 0.8rem;
+        }
+      </style>
+      
+      <table class="table table-striped table-bordered table-servico" style="margin-bottom: 0;">
+        <thead>
+          <tr class="background-color">
+            <th rowspan="2">No</th>
+            <th rowspan="2">Posto</th>
+        
+            <th colspan="10">Profisaun / Servisu</th>
+        
+            <th rowspan="2">%</th>
+          </tr>
+        
+          <tr class="background-color">
+            <th>Governu</th>
+            <th>Laos Governu</th>
+            <th>Polisia &amp; F-FDTL</th>
+            <th>Doutor</th>
+            <th>Dosente</th>
+            <th>Profesor</th>
+            <th>Governante</th>
+            <th>Setor Privadu</th>
+            <th>Reformadu</th>
+            <th>Trabalhador Estranjeiru</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in posto_servico_matrix %}
+          <tr>
+            <td><strong>{{ forloop.counter }}</strong></td>
+            <td><strong>{{ item.posto_nome }}</strong></td>
+            <td style="text-align: center;">{{ item.GOVERNU|default:0 }}</td>
+            <td style="text-align: center;">{{ item.LAOS_GOVERNU|default:0 }}</td>
+            <td style="text-align: center;">{{ item.POLISIA_FDTL|default:0 }}</td>
+            <td style="text-align: center;">{{ item.DOUTOR|default:0 }}</td>
+            <td style="text-align: center;">{{ item.DOSENTE|default:0 }}</td>
+            <td style="text-align: center;">{{ item.PROFESOR|default:0 }}</td>
+            <td style="text-align: center;">{{ item.GOVERNNANTE|default:0 }}</td>
+            <td style="text-align: center;">{{ item.SETOR_PRIVADO|default:0 }}</td>
+            <td style="text-align: center;">{{ item.REFORMADO|default:0 }}</td>
+            <td style="text-align: center;">{{ item.TRABLHADOR|default:0 }}</td>
+            <td style="text-align: center; font-weight: bold; color: #28a745;">
+              {{ item.percentual }}%
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="12" class="text-center">Laiha dadus</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+</section><!-- End Servisu Section -->
+</main><!-- End #main -->
+<!-- ======= CSS furak ======= -->
+
+<!-- Chart.js CDN no Plugin Datalabels -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // Rejista plugin datalabels
+      Chart.register(ChartDataLabels);
+  
+      // Função seguru atu parse JSON
+      function safeParse(data, fallback = []) {
+          try {
+              return JSON.parse(data);
+          } catch (e) {
+              console.warn("JSON parse error, using fallback:", e);
+              return fallback;
+          }
+      }
+  
+      // Dadus husi backend
+      var generuLabels = safeParse('{{ generu_labels|safe }}');
+      var generuData = safeParse('{{ generu_data|safe }}');
+      var generuColors = safeParse('{{ generu_colors|safe }}', ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']);
+  
+      var postuLabels = safeParse('{{ postu_labels|safe }}');
+      var postuData = safeParse('{{ postu_data|safe }}');
+      var postuColors = safeParse('{{ postu_colors|safe }}', ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']);
+  
+      var servisuLabels = safeParse('{{ servisu_labels|safe }}');
+      var servisuData = safeParse('{{ servisu_data|safe }}');
+      var servisuColors = safeParse('{{ servisu_colors|safe }}', ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']);
+  
+      var fatinServisuLabels = safeParse('{{ fatin_servisu_labels|safe }}');
+      var fatinServisuData = safeParse('{{ fatin_servisu_data|safe }}');
+      var fatinServisuColors = safeParse('{{ fatin_servisu_colors|safe }}', ['#17a2b8', '#28a745', '#ffc107', '#dc3545', '#6610f2']);
+  
+      var idadeLabels = safeParse('{{ idade_labels|safe }}');
+      var idadeData = safeParse('{{ idade_data|safe }}');
+      var idadeColors = safeParse('{{ idade_colors|safe }}', ['#28a745', '#20c997', '#17a2b8', '#007bff', '#6610f2']);
+  
+      var habilitasaunLabels = safeParse('{{ habilitasaun_labels|safe }}');
+      var habilitasaunData = safeParse('{{ habilitasaun_data|safe }}');
+      var habilitasaunColors = safeParse('{{ habilitasaun_colors|safe }}', ['#ffc107', '#fd7e14', '#dc3545', '#e83e8c', '#6f42c1']);
+  
+      var helaFatinLabels = safeParse('{{ hela_fatin_labels|safe }}');
+      var helaFatinData = safeParse('{{ hela_fatin_data|safe }}');
+      var helaFatinColors = safeParse('{{ hela_fatin_colors|safe }}', ['#6610f2', '#6f42c1', '#007bff', '#17a2b8', '#28a745']);
+  
+      // Profisaun Detallu – uza servisuLabels hanesan fallback (bele troka ho dadus rasik)
+      var profisaunLabels = servisuLabels;
+      var profisaunData = servisuData;
+      var profisaunColors = servisuColors;
+  
+      var totalMembro = {{ total_membro|default:"0" }};
+  
+      // Função atu kria pie chart ho persentajen iha laran no legenda la ho persentajen
+      // Agora ho parameter maxLabelLength atu limita testu iha legenda
+      function createPieChart(canvasId, legendId, labels, data, colors, maxLabelLength = 0) {
+          var canvas = document.getElementById(canvasId);
+          var legendDiv = document.getElementById(legendId);
+          if (!canvas || !legendDiv) return;
+  
+          if (!labels || labels.length === 0 || !data || data.length === 0) {
+              legendDiv.innerHTML = '<div class="legend-row">Laiha dadus</div>';
+              return;
+          }
+  
+          var total = data.reduce((a, b) => a + b, 0);
+          if (total === 0) {
+              legendDiv.innerHTML = '<div class="legend-row">Laiha dadus</div>';
+              return;
+          }
+  
+          // Kria chart
+          var ctx = canvas.getContext('2d');
+          new Chart(ctx, {
+              type: 'pie',
+              data: {
+                  labels: labels,
+                  datasets: [{
+                      data: data,
+                      backgroundColor: colors,
+                      borderColor: '#fff',
+                      borderWidth: 2
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  maintainAspectRatio: true,
+                  plugins: {
+                      legend: { display: false }, // La uza legend default Chart.js
+                      tooltip: { enabled: true },
+                      datalabels: {
+                          display: true,
+                          backgroundColor: 'rgba(0,0,0,0.6)',
+                          borderRadius: 4,
+                          color: 'white',
+                          font: { weight: 'bold', size: 11 },
+                          formatter: function(value, context) {
+                              var total = context.dataset.data.reduce((a, b) => a + b, 0);
+                              var percent = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                              return percent + '%';
+                          },
+                          anchor: 'center',
+                          align: 'center',
+                          offset: 0
+                      }
+                  }
+              }
+          });
+  
+          // Preenche legenda personalizada (ho naran de'it, la ho persentajen)
+          var legendHtml = '';
+          for (var i = 0; i < labels.length; i++) {
+              var color = colors[i % colors.length] || '#ccc';
+              var label = labels[i];
+              
+              // Limita testu se maxLabelLength fornese
+              if (maxLabelLength > 0 && label.length > maxLabelLength) {
+                  label = label.substring(0, maxLabelLength) + '…';
+              }
+              
+              legendHtml += `
+                  <div class="legend-row">
+                      <div class="color-indicator" style="background-color: ${color};"></div>
+                      <span title="${labels[i]}">${label}</span>
+                  </div>
+              `;
+          }
+          legendDiv.innerHTML = legendHtml;
+      }
+  
+      // Renderiza hotu-hotu gráfiku
+      createPieChart('chartGeneru', 'legendGeneru', generuLabels, generuData, generuColors);
+      createPieChart('chartPostu', 'legendPostu', postuLabels, postuData, postuColors);
+      // Tipu Servisu ho limit 30 karakter
+      createPieChart('chartServisu', 'legendServisu', servisuLabels, servisuData, servisuColors, 30);
+      // Fatin Servisu ho limit 30 karakter
+      createPieChart('chartFatinServisu', 'legendFatinServisu', fatinServisuLabels, fatinServisuData, fatinServisuColors, 30);
+      createPieChart('chartIdade', 'legendIdade', idadeLabels, idadeData, idadeColors);
+      // Habilitasaun Literaria – bele aumenta limit 30 mós se hakarak
+      createPieChart('chartHabilitasaun', 'legendHabilitasaun', habilitasaunLabels, habilitasaunData, habilitasaunColors, 30);
+      createPieChart('chartHelaFatin', 'legendHelaFatin', helaFatinLabels, helaFatinData, helaFatinColors);
+      createPieChart('chartProfisaunDetallu', 'legendProfisaun', profisaunLabels, profisaunData, profisaunColors);
+  
+      // Preenche top postu card
+      function renderTopPostu() {
+          var container = document.getElementById('top-postu-content');
+          if (!container) return;
+          if (postuLabels.length > 0 && postuData.length > 0) {
+              var percent = totalMembro > 0 ? Math.round((postuData[0] / totalMembro) * 100) : 0;
+              container.innerHTML = `
+                  <h6 style="color: white; margin: 0; font-size: 15px;">${postuLabels[0]}</h6>
+                  <p style="margin: 5px 0 0 0; opacity: 0.9;">${postuData[0]} Membro</p>
+                  <p style="margin: 0; font-size: 12px; opacity: 0.7;">${percent}% husi total</p>
+              `;
+          } else {
+              container.innerHTML = `<h6 style="color: white; margin: 0;">Laiha</h6><p>0 Membro</p>`;
+          }
+      }
+  
+      // Preenche tabela postu (top 7)
+      function renderPostuTable() {
+          var tbody = document.getElementById('postu-table-body');
+          if (!tbody) return;
+          if (postuLabels.length === 0) {
+              tbody.innerHTML = '<tr><td colspan="4" class="text-center">Laiha dadus</td></tr>';
+              return;
+          }
+          var html = '';
+          for (var i = 0; i < Math.min(7, postuLabels.length); i++) {
+              var percent = totalMembro > 0 ? Math.round((postuData[i] / totalMembro) * 100) : 0;
+              html += `
+                  <tr>
+                      <td>${postuLabels[i]}</td>
+                      <td><span class="badge-stat">${postuData[i]}</span></td>
+                      <td>${percent}%</td>
+                      <td style="width:150px;">
+                          <div class="progress">
+                              <div class="progress-bar bg-success" style="width: ${percent}%;"></div>
+                          </div>
+                      </td>
+                  </tr>
+              `;
+          }
+          tbody.innerHTML = html;
+      }
+  
+      // Preenche tabela servisu (top 7)
+      function renderServisuTable() {
+          var tbody = document.getElementById('servisu-table-body');
+          if (!tbody) return;
+          if (servisuLabels.length === 0) {
+              tbody.innerHTML = '<tr><td colspan="4" class="text-center">Laiha dadus</td></tr>';
+              return;
+          }
+          var html = '';
+          for (var i = 0; i < Math.min(7, servisuLabels.length); i++) {
+              var percent = totalMembro > 0 ? Math.round((servisuData[i] / totalMembro) * 100) : 0;
+              var label = servisuLabels[i].length > 25 ? servisuLabels[i].substring(0, 25) + '...' : servisuLabels[i];
+              html += `
+                  <tr>
+                      <td>${label}</td>
+                      <td><span class="badge-stat badge-stat-info">${servisuData[i]}</span></td>
+                      <td>${percent}%</td>
+                      <td style="width:150px;">
+                          <div class="progress">
+                              <div class="progress-bar bg-info" style="width: ${percent}%;"></div>
+                          </div>
+                      </td>
+                  </tr>
+              `;
+          }
+          tbody.innerHTML = html;
+      }
+  
+      // Executa hotu
+      renderTopPostu();
+      renderPostuTable();
+      renderServisuTable();
+  });
+  </script>
+{% endblock %}

@@ -1,0 +1,435 @@
+{% load static %} {% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Klibur Municipio Bobonaro Oan</title>
+    <link href="{% static 'assetsmkbo/img/kmbologo.jpeg' %}" rel="icon" />
+    <link href="{% static 'assetsmkbo/img/kmbologo.jpeg' %}" rel="apple-touch-icon" />
+    <link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/nprogress/nprogress.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/jqvmap/dist/jqvmap.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/datatables.net-bs/css/dataTables.bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'build/css/custom.min.css' %}" rel="stylesheet">
+  </head>
+  <style>
+    /* Estilo da imagem de perfil */
+    .profile_img {
+        width: 100px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    /* Botões pequenos */
+    .small-btn, .small-modal {
+        font-size: 12px;
+        padding: 3px 12px;
+        border-radius: 2px;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        margin-right: 10px;
+    }
+    .small-xs, .small-modal {
+      font-size: 12px;
+      padding: 3px 12px;
+      border-radius: 2px;
+      background-color: #893e45;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .small-xs:hover {
+      background-color: #ea1583;
+    }                              
+    .small-btn {
+        background-color: rgb(6, 139, 104);
+    }
+  
+    .small-btn:hover {
+        background-color: #15e3ea;
+    }
+  
+    .small-modal {
+        background-color: rgb(117, 121, 121);
+        padding: 2px 4px;
+    }
+  
+    .small-modal:hover {
+        background-color: #15e3ea;
+    }
+  
+    /* Estilo para botões rotulados */
+    .btn-label {
+        position: relative;
+        left: -13px;
+        display: inline-block;
+        padding: 3px 6px;
+        background: #290101ef;
+    }
+  
+    .btn-labeled {
+        padding-top: 0;
+        padding-bottom: 0;
+        background: rgb(59, 59, 59);
+        border-radius: 1px;
+    }
+  
+    .btn-labeled:hover {
+        background-color: #160214;
+    }
+  
+    /* Estilo para título com fonte estilo lápis */
+    .lapiz-style {
+        color: #4c4c4c;
+        font-family: 'Patrick Hand', cursive; /* Usando a nova fonte */
+        font-style: normal; /* Pode ser 'normal' para uma aparência mais limpa */
+        font-size: 16px; /* Ajuste o tamanho conforme necessário */
+    }
+  
+    /* Efeitos de clique nos botões */
+    .small-btn:active, .small-modal:active {
+        transform: scale(0.9);
+    }
+    .custom-background {
+      background-color: rgba(19, 1, 1, 0.953);   
+  }
+  .btn-xs {
+    border-radius: 0%;
+    border-top-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-color: rgb(255, 0, 242);
+    color: white;
+  }
+
+</style>
+
+  <body class="nav-md custom-background">
+    <div class="container body">
+        <div class="main_container">
+          <div class="col-md-3 left_col">
+            <div class="left_col scroll-view custom-background">
+              <div class="navbar nav_title custom-background" style="border: 0;">
+                <a href="{% url 'kmbokudaulun' %}" class="site_title">
+                  <img src="{% static 'assetsmkbo/img/kmbologo.jpeg' %}" alt="KMBO Logo" style="height: 30px; vertical-align: middle;">
+                  <span style="margin-left: 1px;">KMBO</span>
+                </a>
+              </div>
+              
+  
+              <div class="clearfix"></div>
+  
+              <!-- menu profile quick info -->
+              <div class="profile clearfix">
+                <div class="profile_pic">
+                  {% for util in request.user.rejistu_set.all %}
+                      {% if util.fotografia and util.fotografia.name %}
+                          <img src="{{ util.fotografia.url }}" alt="fotografia_user" class="img-circle profile_img">
+                      {% else %}
+                          <img src="{% static 'vendors/img/admin.png' %}" alt="default_user" class="img-circle profile_img">
+                      {% endif %}
+                  {% endfor %}
+              </div>
+              <div class="profile_info">
+                  <span>{% trans "Benvindo...!" %},</span>
+                  {% if request.user.rejistu_set.exists %}
+                      {% with user=request.user.rejistu_set.first %}
+                          <h2>{{ user.naran|default:"Guest" }}</h2>
+                      {% endwith %}
+                  {% else %}
+                      <h2>Bainaka</h2>
+                  {% endif %}
+              </div>                    
+              </div>
+              <!-- /menu profile quick info -->
+  
+              <br />
+  
+             <!-- sidebar menu -->
+
+             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <h3>Dashboard Jerál</h3>
+                <ul class="nav side-menu">
+                  {% if 'admin' in request.user.groups.all|join:', ' %}
+                  <!-- Admin Dashboard Sections -->
+                  <li><a><i class="fa fa-home"></i> Baranda <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'listainfojeralkmbo' %}"><i class="fa fa-info-circle"></i> Info jerál KMBO</a></li>
+                      <li><a href="{% url 'listamensajenhusikordenador' %}"><i class="fa fa-comments-o"></i> Info Husi Koordenadór</a></li>
+                      <li><a href="{% url 'listaparseirusira' %}"><i class="fa fa-users"></i> Parseiru sira</a></li>
+                    </ul>
+                  </li>
+            
+                  <li><a><i class="fa fa-edit"></i> Kona-ba Ami <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'listavm' %}"><i class="fa fa-user"></i> Perfil</a></li>
+                      <li><a href="{% url 'listaorganograma' %}"><i class="fa fa-sitemap"></i> Estrutura Organizasionál</a></li>
+                      <li><a href="{% url 'listaekipakmbo' %}"><i class="fa fa-users"></i> Konsellu Ezekutivu</a></li>
+                    </ul>
+                  </li>
+            
+                  <li><a><i class="fa fa-briefcase"></i> Projetu<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'listaprojetu' %}"><i class="fa fa-folder-open"></i> Projetu</a></li>
+                      <li><a href="{% url 'listafinansiamentunoapoiu' %}"><i class="fa fa-money"></i> Finansiamentu no Apoiu</a></li>
+                    </ul>
+                  </li>
+                  {% endif %}
+            
+                  <!-- Shared Sections for Admin and Media -->
+                  {% if 'admin' in request.user.groups.all|join:', ' or 'ekipa' in request.user.groups.all|join:', ' %}
+                  <li><a><i class="fa fa-bar-chart"></i> Rekursu / Dokumentus<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'listapublikasaunkmbo' %}"><i class="fa fa-book"></i> Publikasaun KMBO</a></li>
+                      <li><a href="{% url 'listadokumentusimportantes' %}"><i class="fa fa-file-text-o"></i> Dokumentus Importantes</a></li>
+                    </ul>
+                  </li>
+                  {% endif %}
+            
+                  {% if 'admin' in request.user.groups.all|join:', ' %}
+                  <!-- Admin Only Sections -->
+                  <li><a><i class="fa fa-check-square-o"></i> Dadus Formulariu<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'listaregistupartisipante' %}"><i class="fa fa-users"></i> Rejistu Partisipante</a></li>
+                      <li><a href="{% url 'listaregistuvoluntariu' %}"><i class="fa fa-user-plus"></i> Rejistu Voluntariu</a></li>
+                      <li><a href="{% url 'listaregistumenbrokmbo' %}"><i class="fa fa-user-plus"></i> Lista Menbro KMBO</a></li>
+                     
+
+                    </ul>
+                  </li>
+            
+                  <li><a><i class="fa fa-tasks"></i> Atividade<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'listaatividade' %}"><i class="fa fa-calendar-check-o"></i> Rejistu Atividade</a></li>
+                    </ul>
+                  </li>
+            
+                  <li><a><i class="fa fa-pencil-square-o"></i> Artigu / Opinia<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'listaartigu' %}"><i class="fa fa-lightbulb-o"></i> Artigu / Opinia</a></li>
+                    </ul>
+                  </li>
+            
+                  <li><a><i class="fa fa-newspaper-o"></i> Notisia<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'listakategoria' %}"><i class="fa fa-tags"></i> Kategoria</a></li>
+                      <li><a href="{% url 'imajen' %}"><i class="fa fa-camera"></i> Foto ba Notisia</a></li>
+                      <li><a href="{% url 'listanoti' %}"><i class="fa fa-bullhorn"></i> Notísia Lokal KMBO</a></li>
+                      <li><a href="{% url 'galeria' %}"><i class="fa fa-image"></i> Galeria Imagem</a></li>
+                      <li><a href="{% url 'video' %}"><i class="fa fa-video-camera"></i> Vídeo</a></li>
+                    </ul>
+                  </li>
+            
+                  <li><a><i class="fa fa-envelope"></i> Kontaktu Ami<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'listakontaktuami' %}"><i class="fa fa-info"></i> Info Kontaktu</a></li>
+                      <li><a href="{% url 'listakontaktu' %}"><i class="fa fa-commenting"></i> Formuláriu kontaktu online</a></li>
+                    </ul>
+                  </li>
+                  {% endif %}
+                </ul>
+              </div>
+            
+              {% if 'admin' in request.user.groups.all|join:', ' %}
+              <div class="menu_section">
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-user"></i> Registu Uzer <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'uzuariu' %}"><i class="fa fa-list"></i> Lista</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              {% endif %}
+            </div>
+
+  
+              <!-- /menu footer buttons -->
+              <div class="sidebar-footer hidden-small">
+                <a data-toggle="tooltip" data-placement="top" title="Settings">
+                  <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                  <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="Lock">
+                  <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="Logout" href="{% url 'logout' %}">
+                  <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                </a>
+              </div>
+              <!-- /menu footer buttons -->
+            </div>
+          </div>
+  
+          <!-- top navigation -->
+          <div class="top_nav">
+            <div class="nav_menu">
+                <nav>
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="">
+                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                {% if request.user.rejistu_set.exists %}
+                                    {% with user=request.user.rejistu_set.first %}
+                                        {% if user.fotografia and user.fotografia.name %}
+                                            <img src="{{ user.fotografia.url }}" alt="">{{ user.naran|default:"Guest" }}
+                                        {% else %}
+                                            <img src="{% static 'vendors/img/admin.png' %}" alt="default_user">{{ user.naran|default:"Guest" }}
+                                        {% endif %}
+                                    {% endwith %}
+                                {% else %}
+                                    <img src="{% static 'vendors/img/admin.png' %}" alt="default_user">Guest
+                                {% endif %}
+                                <span class="fa fa-angle-down"></span>
+                            </a>                                
+                            <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                <li><a href="{% url 'perfil' %}"><span class="glyphicon glyphicon-user pull-right"></span>{% trans "Perfil" %}</a></li>
+                                <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-off pull-right"></span> {% trans "Log Out" %}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="clearfix"></div>
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert
+                        {% if message.tags %}
+                        {% if 'success' in message.tags %} alert-success
+                        {% elif 'error' in message.tags %} alert-danger
+                        {% endif %}
+                        {% endif %}" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+        </div>
+          <!-- /top navigation Transaction -->
+  
+          <!-- page content -->
+       
+         {% block content %}
+          
+         {% endblock %}
+          
+          <!-- /page content -->
+  
+          <!-- footer content -->
+          <footer>
+            <div class="pull-right">Copyright © 2025 KMBO. All Rights Reserved.
+              Designed by Developer 
+               <a href="https://colorlib.com">KMBO</a>
+            </div>
+            <div class="clearfix"></div>
+          </footer>
+          <!-- /footer content -->
+        </div>
+      </div>
+
+      <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+      <script src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'vendors/fastclick/lib/fastclick.js' %}"></script>
+      <script src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
+      <script src="{% static 'vendors/Chart.js/dist/Chart.min.js' %}"></script>
+      <script src="{% static 'vendors/gauge.js/dist/gauge.min.js' %}"></script>
+      <script src="{% static 'vendors/bootstrap-progressbar/bootstrap-progressbar.min.js' %}"></script>
+      <script src="{% static 'vendors/iCheck/icheck.min.js' %}"></script>
+      <script src="{% static 'vendors/skycons/skycons.js' %}"></script>
+      <script src="{% static 'vendors/Flot/jquery.flot.js' %}"></script>
+      <script src="{% static 'vendors/Flot/jquery.flot.pie.js' %}"></script>
+      <script src="{% static 'vendors/Flot/jquery.flot.time.js' %}"></script>
+      <script src="{% static 'vendors/Flot/jquery.flot.stack.js' %}"></script>
+      <script src="{% static 'vendors/Flot/jquery.flot.resize.js' %}"></script>
+      <script src="{% static 'vendors/flot.orderbars/js/jquery.flot.orderBars.js' %}"></script>
+      <script src="{% static 'vendors/flot-spline/js/jquery.flot.spline.min.js' %}"></script>
+      <script src="{% static 'vendors/flot.curvedlines/curvedLines.js' %}"></script>
+      <script src="{% static 'vendors/DateJS/build/date.js' %}"></script>
+      <script src="{% static 'vendors/jqvmap/dist/jquery.vmap.js' %}"></script>
+      <script src="{% static 'vendors/jqvmap/dist/maps/jquery.vmap.world.js' %}"></script>
+      <script src="{% static 'vendors/jqvmap/examples/js/jquery.vmap.sampledata.js' %}"></script>
+      <script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
+      <script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+      
+      <!-- Datatables -->
+      <script src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+      <script src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+      <script src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+      <script src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+      <script src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+      <script src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+      <script src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+      <script src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+      <script src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+      <script src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+      <script src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+      <script src="{% static 'vendors/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
+      <script src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
+      <script src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>
+      <script src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>
+      
+      <script src="{% static 'build/js/custom.min.js' %}"></script>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    // Verifica se o DataTable já foi inicializado
+    if ($.fn.dataTable.isDataTable('#datatable')) {
+        // Se já estiver inicializado, destrói a instância anterior
+        $('#datatable').DataTable().destroy();
+    }
+
+    // Inicializa o DataTable
+    $('#datatable').DataTable({
+        "pagingType": "simple_numbers",
+        "lengthMenu": [50, 75, 100, 125, 150],
+        "pageLength": 50,
+        "language": {
+            "search": "Peskiza:",
+            "paginate": {
+                "previous": ">>",
+                "next": "<<"
+            },
+            "lengthMenu": "_MENU_ Rohan Filera",
+            "info": "Pagina _PAGE_ Husi _PAGES_ ",
+            "zeroRecords": "<center>Dadus Mamuk</center>",
+            "infoEmpty": "Ezekuta Dadus Laiha",
+            "infoFiltered": "(Total Pagina _MAX_)"
+        }
+    });
+
+    // Animação para alertas
+    document.querySelectorAll('.alert').forEach(function(alert) {
+        setTimeout(function() {
+            alert.style.transition = 'opacity 200ms ease-out';
+            alert.style.opacity = 0;
+            setTimeout(function() {
+                alert.remove();
+            }, 300);
+        }, 3000);
+    });
+    
+});
+
+    </script>
+      
+	
+  </body>
+</html>

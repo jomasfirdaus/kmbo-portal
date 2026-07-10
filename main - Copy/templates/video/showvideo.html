@@ -1,0 +1,132 @@
+{% extends "portal/kmbomenu.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load embed_video_tags %}
+
+{% block konteudu1 %}
+<main id="main">
+  <!-- ======= Breadcrumbs ======= -->
+  <section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>{% trans "Video" %}</h2>
+        <ol>
+          <li><a href="{% url 'dashboardkmbo' %}">{% trans "Baranda" %}</a></li>
+          <li>{% trans "Video Sira" %}</li>
+        </ol>
+      </div>
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  <section id="portfolio" class="portfolio sections-bg">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-header mt-5 text-center">
+        <h2 style="color:  #000000;">{% trans "Video" %}</h2>
+       
+      </div>
+      <hr>
+
+      <!-- Filter Buttons -->
+      <div class="row" data-aos="fade-up">
+        <div class="col-lg-12 d-flex justify-content-center">
+          <ul id="portfolio-flters">
+            <li data-filter="*" class="filter-active">{% trans "Kompletu" %}</li>
+            {% for tinan in tinan_list %}
+              <li data-filter=".filter-{{ tinan }}">{{ tinan }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <!-- Video Gallery -->
+      <div class="portfolio-isotope" data-portfolio-filter="*" data-portfolio-layout="masonry" data-portfolio-sort="original-order" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4 portfolio-container">
+          {% for dados in video %}
+          <div class="col-xl-4 col-md-6 portfolio-item filter-{{ dados.datapublikasaun|date:"Y" }}">
+            <div class="portfolio-wrap">
+              {% video dados.link '426x240' %}
+              <br><br>
+              <h5 class="mb-3"><b>{{ dados.titulu }}</b></h5>
+            </div>
+          </div>
+          {% empty %}
+          <p class="text-center">{% trans "La iha video" %}</p>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Isotope Script -->
+  <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var iso = new Isotope('.portfolio-container', {
+        itemSelector: '.portfolio-item',
+        layoutMode: 'fitRows'
+      });
+
+      var filtersElem = document.getElementById('portfolio-flters');
+      filtersElem.addEventListener('click', function(event) {
+        if (!event.target.matches('li')) return;
+        var filterValue = event.target.getAttribute('data-filter');
+        iso.arrange({ filter: filterValue });
+
+        filtersElem.querySelectorAll('li').forEach(function(el) {
+          el.classList.remove('filter-active');
+        });
+        event.target.classList.add('filter-active');
+      });
+    });
+  </script>
+
+  <!-- CSS -->
+  <style>
+    .portfolio-wrap {
+      position: relative;
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .portfolio-wrap:hover {
+      transform: scale(1.03);
+    }
+    .portfolio-wrap iframe, .portfolio-wrap video {
+      border-radius: 6px;
+      width: 100%;
+      height: auto;
+    }
+    h5.mb-3 {
+      text-align: center;
+      color: #333;
+    }
+    #portfolio-flters {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 30px 0;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    #portfolio-flters li {
+      cursor: pointer;
+      padding: 8px 16px;
+      background: #eee;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    #portfolio-flters li.filter-active,
+    #portfolio-flters li:hover {
+      background: #007bff;
+      color: white;
+    }
+  </style>
+
+</main>
+{% endblock %}

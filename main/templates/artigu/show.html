@@ -1,0 +1,64 @@
+{% extends "portal/kmbomenu.html" %}
+{% load i18n %}
+{% block konteudu1 %}
+
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>{% trans "Artigu / Opinia" %}</h2>
+        <ol>
+          <li><a href="{% url 'dashboardkmbo' %}">{% trans "Baranda" %}</a></li>
+          <li>{% trans "Artigu / Opinia" %}</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Servisu KMBO Section ======= -->
+  <section id="servisu" class="services section-bg">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-title">
+        <h2>{% trans "Artigu / Opinia" %}</h2>
+        <p>{% trans "KMBO nia Programa no Servisu Relasiona ho Artigu" %}</p>
+      </div>
+
+      <div class="row">
+        {% for item in artigu %}
+          <div class="col-lg-4 col-md-4 d-flex align-items-stretch mb-4" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:'1' }}00">
+            <div class="icon-box iconbox-blue w-100">
+              <h4>{{ item.titlu|default:"(Sin Titulu)" }}</h4>
+              <p>{{ item.deskrisaun|default:"" }}</p>
+              <small><i>{% trans "Data:" %} {{ item.data|date:"d M Y" }}</i></small><br>
+
+              <div class="button mt-2" style="font-size: 2rem; color:#007bff;">
+                <a href="{{ item.file_pdf.url }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="{% trans 'Le’e Dokumentus' %}">
+                  <i class="bx bx-book" style="font-size: 2rem; color:#007bff;"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <p>{% trans "La iha artigu nebee disponivel." %}</p>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- Tooltip Init -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+      new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  });
+</script>
+
+{% endblock %}

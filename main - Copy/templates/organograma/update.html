@@ -1,0 +1,53 @@
+{% extends "portal/main.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block content %}
+<div class="right_col" role="main">
+  <div class="">
+    <div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <span class="lapiz-style">
+              <i class="fa fa-edit"></i> <i class="fa fa-angle-right"></i> {% trans "Hadia Organograma" %}
+            </span>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+
+          <div class="x_content">
+            <br />
+            <div class="card-content">
+              <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                {{ form|crispy }}
+
+                {% if form.instance.imajen %}
+                  <div class="form-group">
+                    <label>{% trans "Current Image" %}</label><br />
+                    <img src="{{ form.instance.imajen.url }}" alt="{% trans 'Current Image' %}" width="150" />
+                  </div>
+                {% endif %}
+
+                <div class="text-center mt-3">
+                  <button type="submit" class="btn btn-info btn-xs" id="submit-btn">
+                    <i class="fa fa-edit"></i> {% trans "Atualiza" %}
+                  </button>
+                  <a href="javascript:history.back();" class="btn btn-danger btn-xs" id="cancel-btn">
+                    <i class="fa fa-close"></i> {% trans "Kancela" %}
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

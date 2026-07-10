@@ -1,0 +1,262 @@
+{% extends "portal/kmbomenu.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block konteudu1 %}
+<main id="main">
+
+  <style>
+    /* Estilu ba Mensajen Apresentasaun */
+    .welcome-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 20px 20px 0 0;
+      padding: 2.5rem;
+      margin-bottom: 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    /* Títulu boot */
+    .welcome-card h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    /* Parágrafu normal (fo kiik tan) */
+    .welcome-card p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 0.9rem;
+      opacity: 0.95;
+    }
+    
+    /* Caixa Garantia */
+    .guarantee-box {
+      background: rgba(0,0,0,0.2);
+      border-radius: 15px;
+      padding: 1.4rem;
+      margin-top: 1.8rem;
+      border: 2px solid #ffd700;
+    }
+    
+    /* Títulu Garantia */
+    .guarantee-box h5 {
+      color: #ffd700;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    /* Letra info kiik tan */
+    .guarantee-box p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 0.4rem;
+    }
+    
+    /* Ikon */
+    .guarantee-box i {
+      color: #4CAF50;
+      margin-right: 8px;
+    }
+    
+    /* Responsivu (telemovel) */
+    @media (max-width: 768px) {
+      .welcome-card {
+        padding: 1.5rem;
+      }
+    
+      .welcome-card h2 {
+        font-size: 1.7rem;
+      }
+    
+      .welcome-card p {
+        font-size: 0.95rem;
+      }
+    
+      .guarantee-box p {
+        font-size: 0.85rem;
+      }
+    }
+    </style>
+
+  <section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          
+          <!-- INÍCIO: MENSAJEN APRESENTASAUN -->
+<div class="welcome-card">
+  <h5>
+    
+    INDENTIFIKASAUN BOBONARO OAN IHA RAI LARAN & RAI LIUR (KMBO)
+  </h5>
+
+  <p>
+    <strong>Maun-alin sira, saudasaun respeituosa!</strong>
+  </p>
+
+  <p>
+    Ami konvida ita boot atu halo rejistu dadus pessoal iha formuláriu iha kraik ne’e.
+    Inisiativa ida ne’e iha objetivu atu <span class="fw-bold text-warning">identifika no organiza Bobonaro Oan sira</span>
+    ne’ebé hela iha rai laran no mós iha rai liur.
+  </p>
+
+  <div class="guarantee-box">
+    <h5>
+      <i class="fas fa-lock me-2"></i>
+      Garantia Privasidade
+    </h5>
+
+    <p>
+      <i class="fas fa-check-circle"></i>
+      Dadus ne’ebé hatama sei uza <strong>deit ba fins komunidade</strong>,
+      liuliu atu identifika Bobonaro Oan sira.
+    </p>
+
+    <p>
+      <i class="fas fa-check-circle"></i>
+      Dadus sei la fahe ba parte seluk la ho ita boot nia autorizasaun.
+    </p>
+
+    <p>
+      <i class="fas fa-check-circle"></i>
+      Ami kompromete atu rai dadus ho seguransa no kuidadu profesional.
+    </p>
+
+    <p class="mt-3 mb-0 text-center">
+      <i class="fas fa-heart text-danger"></i>
+      Ita nia dadus mak parte husi ita nia identidade, ami sei proteje ho responsablidade.
+      <i class="fas fa-heart text-danger"></i>
+    </p>
+  </div>
+
+  <p class="text-center mt-4 mb-0">
+    <i class="fas fa-arrow-down fa-2x"></i>
+  </p>
+</div>
+<!-- FIM: MENSAJEN APRESENTASAUN -->
+
+          <div class="card border-0 shadow-lg" style="border-radius: 0 0 20px 20px;">
+            <div class="card-header bg-primary text-white">
+              <h3 class="mb-0 text-center">
+                <i class="fas fa-user-plus me-2"></i>
+                {% trans "Formuláriu Membru KMBO" %}
+              </h3>
+            </div>
+            
+            <div class="card-body p-5">
+             
+              <!-- Formuláriu -->
+              <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                <!-- Hatudu non-field errors -->
+                {% if form.non_field_errors %}
+                  <div class="alert alert-warning">
+                    {% for error in form.non_field_errors %}
+                      <p class="mb-0"><i class="fas fa-exclamation-circle me-2"></i>{{ error }}</p>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+                
+                <div class="row">
+                  <div class="col-md-12 mb-3">
+                    {{ form.naran_kompletu|as_crispy_field }}
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-4 mb-3">
+                    {{ form.idade|as_crispy_field }}
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    {{ form.generu|as_crispy_field }}
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    {{ form.nomor_eleitoral_bi|as_crispy_field }}
+                    <small class="text-muted">
+                      <i class="fas fa-info-circle"></i> 
+                      Eleitoral: numeru deit (8-12) | BI: Letra+Numeru (6-15)
+                    </small>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    {{ form.hela_fatin_atual|as_crispy_field }}
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    {{ form.posto|as_crispy_field }}
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-12 mb-3">
+                    {{ form.habilitasaun_literaria|as_crispy_field }}
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    {{ form.servisu_hanesan|as_crispy_field }}
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    {{ form.fatin_servisu|as_crispy_field }}
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    {{ form.telefone|as_crispy_field }}
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    {{ form.email|as_crispy_field }}
+                  </div>
+                </div>
+                
+                {{ form.naran_anterior }}
+                
+                <div class="text-center mt-4">
+                  <button type="submit" class="btn btn-outline-secondary btn-sm">
+                    <i class="fa fa-save me-2"></i> Rai
+                  </button>
+                  <a href="{% url 'listaregistumenbrokmbo' %}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fa fa-times me-2"></i> Fila
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- Bootstrap validation script -->
+<script>
+(function () {
+  'use strict'
+  
+  var forms = document.querySelectorAll('.needs-validation')
+  
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+{% endblock %}

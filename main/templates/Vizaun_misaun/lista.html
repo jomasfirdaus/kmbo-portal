@@ -1,0 +1,96 @@
+{% extends "portal/main.html" %}
+{% load static %}
+{% load sbr_id_jms %}
+{% load i18n %}
+{% block content %}
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+              <div class="clearfix"></div>
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+            <div class="x_title">
+            <h2><i class="fa fa-user"></i> <span class="lapiz-style">Perfil</span> </h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="x_content">
+            <div role="tabpanel" data-example-id="togglable-tabs">
+                <!-- Tab Navigation -->
+                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                    {% for dados in vm %}
+                        <li role="presentation" class="{% if forloop.first %}active{% endif %}">
+                            <a href="#{{ dados.lingua }}" id="{{ dados.lingua }}-tab" role="tab" data-toggle="tab" aria-expanded="true">
+                                {{ dados.lingua }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <!-- Tab Content -->
+                <div id="myTabContent" class="tab-content">
+                    {% for dados in vm %}
+                        <div role="tabpanel" class="tab-pane fade {% if forloop.first %}active in{% endif %}" id="{{ dados.lingua }}" aria-labelledby="{{ dados.lingua }}-tab">
+                            <ul class="list-unstyled timeline">
+                                <li>
+                                    <div class="block">
+                                        <div class="tags">
+                                            <a href="" class="tag">
+                                                <span>{{ dados.lingua }}</span>
+                                            </a>
+                                        </div>
+                                        <div class="block_content">
+                                            <!-- IQTL -->
+                                            <p class="excerpt">
+                                                <b class="lapiz-style"><i class="fa fa-user"></i> {% trans "Historia" %}</b>
+                                                {{ dados.historia|safe }}
+                                            </p>
+                                            <hr>
+                                            <!-- Vizaun -->
+                                            <p class="excerpt">
+                                                <b class="lapiz-style"><i class="fa fa-lightbulb-o"></i> {% trans "Vizaun" %}</b>
+                                                {{ dados.vizaun|safe }}
+                                            </p>
+                                            <hr>
+                                            <!-- Misaun -->
+                                            <p class="excerpt">
+                                                <b class="lapiz-style"><i class="fa fa-bullseye"></i> {% trans "Misaun" %}</b>
+                                                {{ dados.misaun|safe }}
+                                            </p>
+                                            <hr>
+                                            <!-- Kompetensia -->
+                                            <p class="excerpt">
+                                                <b class="lapiz-style"><i class="fa fa-cogs"></i> {% trans "Objetivu Principal" %}</b>
+                                                {{ dados.objetivuprincipal|safe }}
+                                            </p>
+                                            <hr>
+                                            <!-- Prioridade -->
+                                           
+                                            <div class="text-center">
+                                                <!-- Edit Button -->
+                                                <a href="{% url 'updatevm' dados.id|encrypt_id_tag %}" class="small-btn" data-toggle="tooltip" data-placement="top" title="Hadia {{ dados.lingua }}">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<!-- /page content -->
+{% endblock %}

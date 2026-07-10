@@ -1,0 +1,177 @@
+{% extends "portal/kmbomenu.html" %}
+{% block konteudu1 %}
+{% load static %}
+{% load i18n %}
+
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+  <div id="heroCarousel" data-bs-interval="3000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-inner" role="listbox">
+      {% if first_three_noti %}
+        {% for dados in first_three_noti %}
+          {% if dados.status == "Publika" %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}" 
+                 style="background-image: url({{ dados.imajen.image.url }});">
+              <div class="carousel-container">
+                <div class="carousel-content animate__animated animate__fadeInUp">
+                  <h2 class="text-center">{{ dados.titlu }}</h2>
+                  <p class="small-text">{{ dados.konteudu|safe|truncatechars:400 }}</p>
+
+                  <div class="text-center">
+                    <a href="{% url 'shownotisia' slug=dados.slug %}" 
+                       class="btn-get-started">{% trans "Lee Detallu" %}</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <div class="carousel-item active" style="background-color: #f0f0f0;">
+          <div class="carousel-container">
+            <div class="carousel-content animate__animated animate__fadeInUp">
+              {% get_current_language as LANGUAGE_CODE %}
+              {% if LANGUAGE_CODE == 'en' %}
+                <h2 class="text-center text-muted">No news in English</h2>
+              {% elif LANGUAGE_CODE == 'pt' %}
+                <h2 class="text-center text-muted">Não há notícias em Português</h2>
+              {% else %}
+                <h2 class="text-center text-muted">Notísia Tetun la iha</h2>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+    </a>
+    <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+      <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+    </a>
+
+    <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+  </div>
+</section><!-- End Hero -->
+
+<main id="main">
+  <!-- ======= Testimonials Section ======= -->
+  <section id="testimonials" class="testimonials section-bg">
+    <div class="container">
+      <div class="row">
+        <!-- MENSAJEN HUSI PRESIDENTE -->
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="section-title">
+            <h4>{% trans "MENSAJEN HUSI PRESIDENTE KMBO" %}</h4>
+          </div>
+          {% for dados in mensajenhusikordenador %}
+            <div class="testimonial-item mt-4 mt-lg-0 member-description">
+              <img src="{{ dados.imajen.url }}" class="testimonial-img" alt="Koordenadór KMBO">
+              <h3 class="member-name">{{ dados.naran }}</h3>
+              {% if dados.pozisaun %}
+                <h4 class="member-position">{{ dados.pozisaun }}</h4>
+              {% endif %}
+              <div class="preview-text">{{ dados.deskrisaun|truncatechars_html:150|safe }}</div>
+              <div class="full-text d-none">{{ dados.deskrisaun|safe }}</div>
+              <a href="#" class="toggle-btn btn">
+                <i class="bi bi-chevron-down me-1"></i> {% trans "Lee Detallu" %}
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- INFORMASAUN JERAL -->
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="section-title">
+            <h4>{% trans "INFORMASAUN JERÁL KONA-BA KMBO" %}</h4>
+          </div>
+          {% for dados in infojeralkmbo %}
+            <div class="testimonial-item mt-4 mt-lg-0 member-description">
+              <img src="{{ dados.imajen.url }}" class="testimonial-img" alt="Info Jerál">
+              {% if dados.titlu %}
+                <h3 class="member-position">{{ dados.titlu }}</h3>
+              {% endif %}
+              <div class="preview-text">{{ dados.deskrisaun|truncatechars_html:250|safe }}</div>
+              <div class="full-text d-none">{{ dados.deskrisaun|safe }}</div>
+              <a href="#" class="toggle-btn btn">
+                <i class="bi bi-chevron-down me-1"></i> {% trans "Lee Detallu" %}
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section><!-- End Testimonials -->
+
+  <!-- ======= Our Clients Section ======= -->
+  <section id="clients" class="clients">
+    <div class="container" data-aos="fade-up">
+      <div class="section-title">
+        <h2>{% trans "PARSEIRU SIRA" %}</h2>
+      </div>
+      <div class="row no-gutters clients-wrap clearfix" data-aos="fade-up">
+        {% for dados in parseirusira %}
+          <div class="col-lg-3 col-md-4 col-6 text-center mb-4">
+            <div class="client-logo">
+              <a target="_blank" href="{{ dados.link_site }}">
+                <img src="{{ dados.imagen.url }}" class="img-fluid" alt="{{ dados.titlu }}">
+              </a>
+            </div><h6 class="mt-2">{{ dados.titlu }}</h6>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section><!-- End Our Clients -->
+</main><!-- End #main -->
+
+<style>
+  .small-text {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  /* Hero */
+  #hero { height: 100vh; overflow: hidden; }
+  #hero .carousel-item { height: 100vh; background-size: cover; background-position: center; }
+  #hero .carousel-container { height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  #hero .carousel-content { background: rgba(0, 0, 0, 0.4); padding: 20px; border-radius: 10px; max-width: 700px; }
+  #hero h2 { font-size: 24px; font-weight: bold; color: #fff; }
+  #hero p { font-size: 14px; color: #eee; }
+  .btn-get-started { margin-top: 10px; padding: 8px 16px; font-size: 14px; }
+
+  /* Mensajen & Informasaun */
+  .member-description { color: #555; line-height: 1.7; font-size: 0.95rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin-top: 1rem; }
+  .member-name { color: #2c3e50; font-weight: 700; font-size: 1.2rem; margin-bottom: 0.3rem; }
+  .member-position { color: #e74c3c; font-size: 0.95rem; font-weight: 600; margin: 0; }
+  .preview-text { color: #666; font-style: italic; line-height: 1.6; margin-bottom: 0.8rem; font-size: 0.92rem; }
+  .full-text { color: #444; font-style: normal; line-height: 1.7; margin-bottom: 0.8rem; }
+  .toggle-btn.btn { background: rgb(9, 223, 209); color: white; border: none; border-radius: 3px; padding: 5px 10px; transition: all 0.3s ease; font-weight: bold; margin-top: 0.5rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  .toggle-btn.btn:hover { background: rgb(128, 71, 227); transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+  .testimonial-img { width: 90px; height: 90px; object-fit: cover; border-radius: 50%; border: 3px solid #e9ecef; margin-bottom: 10px; }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.member-description').forEach(container => {
+      const btn = container.querySelector('.toggle-btn');
+      const preview = container.querySelector('.preview-text');
+      const full = container.querySelector('.full-text');
+
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        if (full.classList.contains('d-none')) {
+          full.classList.remove('d-none');
+          preview.classList.add('d-none');
+          btn.innerHTML = '<i class="bi bi-chevron-up me-1"></i> {% trans "Taka Detallu" %}';
+        } else {
+          full.classList.add('d-none');
+          preview.classList.remove('d-none');
+          btn.innerHTML = '<i class="bi bi-chevron-down me-1"></i> {% trans "Lee Detallu" %}';
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock %}

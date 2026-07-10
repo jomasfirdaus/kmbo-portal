@@ -1,0 +1,141 @@
+{% extends "portal/kmbomenu.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load static %}
+
+{% block konteudu1 %}
+<main id="main" class="kmbo-template">
+
+  <!-- Breadcrumbs -->
+  <section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>{% trans "Kona-ba Ami" %}</h2>
+        <ol>
+          <li><a href="{% url 'dashboardkmbo' %}"> {% trans "Baranda" %}</a></li>
+          <li>{% trans "DELEGADU SIRA" %}</li>
+        </ol>
+      </div>
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  <section id="about-us" class="about-us">
+    <div class="container" data-aos="fade-up">
+      <div class="row content">
+        <div class="col-lg-12" data-aos="fade-up" data-aos-delay="100">
+
+          <!-- Action Buttons -->
+          <div class="d-flex flex-column flex-md-row justify-content-between mb-4 gap-3">
+            <div>
+              <a href="{% url 'inputregistupartisipante' %}" class="btn btn-success btn-action w-100 w-md-auto">
+                <i class="fa fa-plus me-2"></i> {% trans "Rejistu AJ " %}
+              </a>
+            </div>
+            <!-- Download PDF button removed -->
+          </div>
+
+          <!-- Table -->
+          <div class="table-responsive-container">
+            <table id="tabelaDelegadu" class="table table-bordered table-striped table-hover align-middle mb-0">
+              <thead class="table-primary">
+                <tr>
+                  <th>#</th>
+                  <th>{% trans "Naran" %}</th>
+                  <th>{% trans "Sexo" %}</th>
+                  <th>{% trans "Postu" %}</th>
+                  <th>{% trans "Suku" %}</th>
+                  <th>{% trans "Aldeia" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for p in registupartisipante %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ p.naran }}</td>
+                  <td class="text-center">
+                    {% if p.sexo == "M" %}
+                      <span class="badge bg-primary">{% trans "M" %}</span>
+                    {% elif p.sexo == "F" %}
+                      <span class="badge bg-danger">{% trans "F" %}</span>
+                    {% else %}
+                      <span class="badge bg-secondary">{{ p.sexo }}</span>
+                    {% endif %}
+                  </td>
+                  <td class="text-truncate" style="max-width: 150px;">{{ p.email }}</td>
+                  <td>{{ p.postu }}</td>
+                  <td>{{ p.suku }}</td>
+                  <td>{{ p.aldeia }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+        
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Import FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+  /* Pode tuir ita nia CSS atual */
+  .foto-icon:hover {
+    color: #0056b3;
+  }
+
+  #tabelaDelegadu {
+    font-size: 0.75rem; /* Letra kiik liu */
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  #tabelaDelegadu th,
+  #tabelaDelegadu td {
+    font-size: 0.75rem; /* Letra kiik liu */
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const fotoIcons = document.querySelectorAll('.foto-icon');
+  const modal = document.getElementById('fotoModal');
+  const modalImg = document.getElementById('modalImg');
+  const closeModal = document.getElementById('closeModal');
+
+  fotoIcons.forEach(icon => {
+    icon.addEventListener('click', function() {
+      const imgSrc = this.getAttribute('data-src');
+      modalImg.src = imgSrc;
+      modal.style.display = 'block';
+    });
+  });
+
+  closeModal.addEventListener('click', function() {
+    modal.style.display = 'none';
+    modalImg.src = '';
+  });
+
+  modal.addEventListener('click', function(event) {
+    if(event.target === modal) {
+      modal.style.display = 'none';
+      modalImg.src = '';
+    }
+  });
+
+  document.addEventListener('keydown', function(event) {
+    if(event.key === "Escape" && modal.style.display === 'block') {
+      modal.style.display = 'none';
+      modalImg.src = '';
+    }
+  });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,613 @@
+{% extends "portal/main.html" %}
+{% load static %}
+{% load sbr_id_jms %}
+{% load i18n %}
+
+{% block content %}
+<div class="right_col" role="main">
+  <div class="clearfix"></div>
+  
+  <!-- ===== CARDS ESTATÍSTIKA ===== -->
+  <div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <div class="x_panel tile fixed_height_140" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; border-radius: 10px;">
+        <div class="x_title">
+          <h2 style="color: white; font-weight: bold;"><i class="fa fa-users"></i> Total Membro</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content text-center">
+          <h1 style="font-size: 40px; margin: 0; color: white;">{{ total_membro }}</h1>
+          <p style="margin-top: 5px; opacity: 0.9;">Bobonaro Oan Rejistadu</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <div class="x_panel tile fixed_height_140" style="background: linear-gradient(135deg, #4568DC 0%, #B06AB3 100%); color: white; border-radius: 10px;">
+        <div class="x_title">
+          <h2 style="color: white; font-weight: bold;"><i class="fa fa-venus-mars"></i> Generu</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="row text-center">
+            <div class="col-xs-6">
+              <h3 style="color: white; margin: 0;">{{ total_feto }}</h3>
+              <p style="margin: 0; opacity: 0.9;"><i class="fa fa-female"></i> Feto</p>
+            </div>
+            <div class="col-xs-6">
+              <h3 style="color: white; margin: 0;">{{ total_mane }}</h3>
+              <p style="margin: 0; opacity: 0.9;"><i class="fa fa-male"></i> Mane</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GRÁFIKU PIE (TODOS) ===== -->
+  <!-- LINHA 1: Postu no Generu -->
+  <div class="row">
+    <div class="col-md-6 col-sm-12 col-xs-12">
+      <div class="x_panel" style="border-radius: 10px;">
+        <div class="x_title">
+          <h2><i class="fa fa-pie-chart"></i> Distribuisaun Postu</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="chart-container-wrapper">
+            <div class="pie-chart-visual"><canvas id="chartPostu"></canvas></div>
+            <div id="legendPostu" class="pie-legend-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-sm-12 col-xs-12">
+      <div class="x_panel" style="border-radius: 10px;">
+        <div class="x_title">
+          <h2><i class="fa fa-pie-chart"></i> Grupu Idade</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="chart-container-wrapper">
+            <div class="pie-chart-visual"><canvas id="chartIdade"></canvas></div>
+            <div id="legendIdade" class="pie-legend-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  
+  </div>
+
+  <!-- LINHA 2: Tipu Servisu no Fatin Servisu -->
+  <div class="row">
+    <div class="col-md-6 col-sm-12 col-xs-12">
+      <div class="x_panel" style="border-radius: 10px;">
+        <div class="x_title">
+          <h2><i class="fa fa-pie-chart"></i> Fatin Servisu</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="chart-container-wrapper">
+            <div class="pie-chart-visual"><canvas id="chartFatinServisu"></canvas></div>
+            <div id="legendFatinServisu" class="pie-legend-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    <div class="col-md-6 col-sm-12 col-xs-12">
+      <div class="x_panel" style="border-radius: 10px;">
+        <div class="x_title">
+          <h2><i class="fa fa-pie-chart"></i> Hela Fatin Atual</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="chart-container-wrapper">
+            <div class="pie-chart-visual"><canvas id="chartHelaFatin"></canvas></div>
+            <div id="legendHelaFatin" class="pie-legend-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+  </div>
+
+  <!-- LINHA 3: Grupu Idade no Habilitasaun Literaria -->
+  <div class="row">
+    <div class="col-md-6 col-sm-12 col-xs-12">
+      <div class="x_panel" style="border-radius: 10px;">
+        <div class="x_title">
+          <h2><i class="fa fa-pie-chart"></i> Habilitasaun Literaria</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="chart-container-wrapper">
+            <div class="pie-chart-visual"><canvas id="chartHabilitasaun"></canvas></div>
+            <div id="legendHabilitasaun" class="pie-legend-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-12 col-xs-12">
+      <div class="x_panel" style="border-radius: 10px;">
+        <div class="x_title">
+          <h2><i class="fa fa-pie-chart"></i> Tipu Servisu</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="chart-container-wrapper">
+            <div class="pie-chart-visual"><canvas id="chartServisu"></canvas></div>
+            <div id="legendServisu" class="pie-legend-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== MINI TABELA ESTATISTIKA ===== -->
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel" style="border-radius: 10px;">
+        <div class="x_title">
+          <h2><i class="fa fa-table"></i> Distribuisaun Membro husi Postu</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <table class="table table-striped table-bordered" style="margin-bottom: 0;">
+            <thead>
+              <tr>
+                <th rowspan="2">No</th>
+                <th rowspan="2">Postu</th>
+                <th rowspan="2">Total</th>
+            
+                <th colspan="2">Géneru</th>
+            
+                <th colspan="6">Habilitasaun Literária</th>
+            
+                <th rowspan="2">%</th>
+              </tr>
+            
+              <tr>
+                <!-- Generu -->
+                
+                <th>Feto</th>
+                <th>Mane</th>
+            
+                <!-- Habilitasaun -->
+                <th>S1</th>
+                <th>S2</th>
+                <th>S3</th>
+                <th>SMA</th>
+                <th>SD</th>
+                <th>Seluk</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for posto in posto_stats_mini %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ posto.nome }}</td>
+                <td style="font-weight: bold; color: #28a745;">{{ posto.total }}</td>
+                <td>{{ posto.feto }}</td>
+                <td>{{ posto.mane }}</td>
+                <td>{{ posto.s1 }}</td>
+                <td>{{ posto.s2 }}</td>
+                <td>{{ posto.s3 }}</td>
+                <td>{{ posto.sma }}</td>
+                <td>{{ posto.sd }}</td>
+                <th>{{posto.seluk}}</th>
+                <td style="font-weight: bold; color: #28a745;">
+                  {{ posto.percentual }}%
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel" style="border-radius: 10px;">
+        <div class="x_title">
+          <h2><i class="fa fa-table"></i> Distribuisaun Profisaun/Servisu</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content" style="overflow-x: auto;">
+          <style>
+            .table-servico th, .table-servico td {
+              white-space: nowrap;
+              padding: 6px 4px !important;
+              font-size: 0.85rem;
+            }
+            .badge-total {
+              background: #007bff;
+              color: white;
+              padding: 3px 8px;
+              border-radius: 12px;
+              font-size: 0.8rem;
+            }
+          </style>
+          
+          <table class="table table-striped table-bordered table-servico" style="margin-bottom: 0;">
+            <thead>
+              <tr class="background-color">
+                <th rowspan="2">No</th>
+                <th rowspan="2">Posto</th>
+            
+                <th colspan="10">Profisaun / Servisu</th>
+            
+                <th rowspan="2">%</th>
+              </tr>
+            
+              <tr class="background-color">
+                <th>Governu</th>
+                <th>Laos Governu</th>
+                <th>Polisia &amp; F-FDTL</th>
+                <th>Doutor</th>
+                <th>Dosente</th>
+                <th>Profesor</th>
+                <th>Governante</th>
+                <th>Setor Privadu</th>
+                <th>Reformadu</th>
+                <th>Trabalhador Estranjeiru</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in posto_servico_matrix %}
+              <tr>
+                <td><strong>{{ forloop.counter }}</strong></td>
+                <td><strong>{{ item.posto_nome }}</strong></td>
+                <td style="text-align: center;">{{ item.GOVERNU|default:0 }}</td>
+                <td style="text-align: center;">{{ item.LAOS_GOVERNU|default:0 }}</td>
+                <td style="text-align: center;">{{ item.POLISIA_FDTL|default:0 }}</td>
+                <td style="text-align: center;">{{ item.DOUTOR|default:0 }}</td>
+                <td style="text-align: center;">{{ item.DOSENTE|default:0 }}</td>
+                <td style="text-align: center;">{{ item.PROFESOR|default:0 }}</td>
+                <td style="text-align: center;">{{ item.GOVERNNANTE|default:0 }}</td>
+                <td style="text-align: center;">{{ item.SETOR_PRIVADO|default:0 }}</td>
+                <td style="text-align: center;">{{ item.REFORMADO|default:0 }}</td>
+                <td style="text-align: center;">{{ item.TRABLHADOR|default:0 }}</td>
+                <td style="text-align: center; font-weight: bold; color: #28a745;">
+                  {{ item.percentual }}%
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="12" class="text-center">Laiha dadus</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LISTA PRINCIPAL HO BOTÃO DOWNLOAD ===== -->
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel" style="border-radius: 10px;">
+        <div class="x_title">
+          <span class="lapiz-style" style="font-size: 18px;">
+            <i class="fa fa-list"></i> Lista Identifikasaun Bobonaro Oan 
+            <span class="badge badge-secondary" style="background: #6c757d;">{{ total_membro }} Membro</span>
+          </span>
+          
+          <div class="navbar-right" style="margin-right: 0;">
+            <div class="btn-group">
+              <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-download"></i> Download <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'download_registumenbrokmbo_excel' %}"><i class="fa fa-file-excel-o text-success"></i> Excel (.xlsx)</a></li>
+                <li><a href="{% url 'download_registumenbrokmbo_csv' %}"><i class="fa fa-file-text-o text-info"></i> CSV (.csv)</a></li>
+                <li><a href="{% url 'download_registumenbrokmbo_pdf' %}"><i class="fa fa-file-pdf-o text-danger"></i> PDF (.pdf)</a></li>
+                <li role="separator" class="divider"></li>
+              </ul>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="x_content">
+          <table id="datatable" class="table table-striped table-bordered small-table">
+            <thead>
+              <tr>
+                <th width="5%">Nu</th>
+                <th width="15%">Naran</th>
+                <th width="8%">No. Eleitoral/BI</th>
+                <th width="5%">Generu</th>
+                <th width="8%">Idade</th>
+                <th width="12%">Postu</th>
+                <th width="10%">Hela Fatin Atual</th>
+                <th width="12%">Servisu</th>
+                <th width="10%">Fatin Servisu</th>
+                <th width="10%">Habilitasaun</th>
+                <th width="10%">Telefone</th>
+                <th width="8%">Asaun</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for partisipante in registupartisipante %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ partisipante.naran_kompletu }}</td>
+                <td>{{ partisipante.nomor_eleitoral_bi }}</td>
+                <td>
+                  {% if partisipante.generu == 'FETO' %}
+                    <span class="label label-danger"><i class="fa fa-female"></i> Feto</span>
+                  {% else %}
+                    <span class="label label-primary"><i class="fa fa-male"></i> Mane</span>
+                  {% endif %}
+                </td>
+                <td>{{ partisipante.idade }}</td>
+                <td>{{ partisipante.get_posto_display|truncatechars:20 }}</td>
+                <td>{{ partisipante.get_hela_fatin_atual_display }}</td>
+                <td>{{ partisipante.get_servisu_hanesan_display|truncatechars:25 }}</td>
+                <td>
+                  {% if partisipante.fatin_servisu == 'MUNISIPAL' %}
+                    <span class="label label-success">{{ partisipante.get_fatin_servisu_display }}</span>
+                  {% elif partisipante.fatin_servisu == 'NASIONAL' %}
+                    <span class="label label-primary">{{ partisipante.get_fatin_servisu_display }}</span>
+                  {% else %}
+                    <span class="label label-warning">{{ partisipante.get_fatin_servisu_display }}</span>
+                  {% endif %}
+                </td>
+                <td>{{ partisipante.get_habilitasaun_literaria_display|truncatechars:15 }}</td>
+                <td>{{ partisipante.telefone|default:"<span class='text-muted'>-</span>" }}</td>
+                
+                <td class="text-center">
+                  <a href="{% url 'updateregistumenbrokmbo' partisipante.id|encrypt_id_tag %}" 
+                     class="btn btn-xs btn-info" 
+                     data-toggle="tooltip" 
+                     data-placement="top" 
+                     title="Hadia">
+                    <i class="fa fa-pencil"></i>
+                  </a>
+                  <a href="#" 
+                     class="btn btn-xs btn-danger" 
+                     data-toggle="modal" 
+                     data-target="#confirmDeleteModal{{ partisipante.id }}" 
+                     title="Hamos">
+                    <i class="fa fa-trash-o"></i>
+                  </a>
+
+                  <!-- Modal Delete -->
+                  <div class="modal fade" id="confirmDeleteModal{{ partisipante.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-sm" role="document">
+                      <div class="modal-content">
+                        <div class="modal-body text-center">
+                          <i class="fa fa-exclamation-triangle fa-3x text-warning"></i>
+                          <h5 class="modal-title">Konfirmasaun!</h5>
+                          <p>Ita Boot hakarak apaga <strong>{{ partisipante.naran_kompletu }}</strong>?</p>
+                          <a href="{% url 'hamosregistumenbrokmbo' partisipante.id %}" class="btn btn-xs btn-danger">
+                            <i class="fa fa-trash"></i> Hamos
+                          </a>
+                          <button type="button" class="btn btn-xs btn-info" data-dismiss="modal">
+                            <i class="fa fa-close"></i> Kansela
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Chart.js v3 no Plugin Datalabels -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof Chart !== 'undefined' && Chart.register) {
+        Chart.register(ChartDataLabels);
+    } else {
+        console.error("Chart.js version not compatible with datalabels plugin");
+    }
+
+    function safeParse(data, fallback = []) {
+        try { return JSON.parse(data); } catch (e) { return fallback; }
+    }
+
+    // Dadus husi backend (ho prefixo 'chart_')
+    var generuLabels = safeParse('{{ chart_generu_labels|safe }}');
+    var generuData = safeParse('{{ chart_generu_data|safe }}');
+    var generuColors = safeParse('{{ chart_generu_colors|safe }}', ['#dc3545', '#007bff']);
+
+    var postuLabels = safeParse('{{ chart_postu_labels|safe }}');
+    var postuData = safeParse('{{ chart_postu_data|safe }}');
+    var postuColors = safeParse('{{ chart_postu_colors|safe }}', ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']);
+
+    var servisuLabels = safeParse('{{ chart_servisu_labels|safe }}');
+    var servisuData = safeParse('{{ chart_servisu_data|safe }}');
+    var servisuColors = safeParse('{{ chart_servisu_colors|safe }}', ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']);
+
+    var fatinServisuLabels = safeParse('{{ chart_fatin_servisu_labels|safe }}');
+    var fatinServisuData = safeParse('{{ chart_fatin_servisu_data|safe }}');
+    var fatinServisuColors = safeParse('{{ chart_fatin_servisu_colors|safe }}', ['#17a2b8', '#28a745', '#ffc107', '#dc3545']);
+
+    var idadeLabels = safeParse('{{ chart_idade_labels|safe }}');
+    var idadeData = safeParse('{{ chart_idade_data|safe }}');
+    var idadeColors = safeParse('{{ chart_idade_colors|safe }}', ['#28a745', '#20c997', '#17a2b8', '#007bff']);
+
+    var habilitasaunLabels = safeParse('{{ chart_habilitasaun_labels|safe }}');
+    var habilitasaunData = safeParse('{{ chart_habilitasaun_data|safe }}');
+    var habilitasaunColors = safeParse('{{ chart_habilitasaun_colors|safe }}', ['#ffc107', '#fd7e14', '#dc3545', '#e83e8c']);
+
+    var helaFatinLabels = safeParse('{{ chart_hela_fatin_labels|safe }}');
+    var helaFatinData = safeParse('{{ chart_hela_fatin_data|safe }}');
+    var helaFatinColors = safeParse('{{ chart_hela_fatin_colors|safe }}', ['#6610f2', '#6f42c1', '#007bff', '#17a2b8']);
+
+    var profisaunLabels = safeParse('{{ chart_profisaun_detallu_labels|safe }}');
+    var profisaunData = safeParse('{{ chart_profisaun_detallu_data|safe }}');
+    var profisaunColors = safeParse('{{ chart_profisaun_detallu_colors|safe }}', ['#fd7e14', '#dc6502', '#ffc107', '#28a745']);
+
+    function createPieChart(canvasId, legendId, labels, data, colors, maxLabelLength = 0) {
+        var canvas = document.getElementById(canvasId);
+        var legendDiv = document.getElementById(legendId);
+        if (!canvas || !legendDiv) return;
+
+        if (!labels.length || !data.length) {
+            legendDiv.innerHTML = '<div class="legend-row">Laiha dadus</div>';
+            return;
+        }
+
+        var total = data.reduce((a, b) => a + b, 0);
+        if (total === 0) {
+            legendDiv.innerHTML = '<div class="legend-row">Laiha dadus</div>';
+            return;
+        }
+
+        var ctx = canvas.getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: colors,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: true },
+                    datalabels: {
+                        display: true,
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        borderRadius: 4,
+                        color: 'white',
+                        font: { weight: 'bold', size: 11 },
+                        formatter: function(value, context) {
+                            var total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            return total > 0 ? ((value / total) * 100).toFixed(1) + '%' : '0%';
+                        },
+                        anchor: 'center',
+                        align: 'center'
+                    }
+                }
+            }
+        });
+
+        var legendHtml = '';
+        for (var i = 0; i < labels.length; i++) {
+            var color = colors[i % colors.length] || '#ccc';
+            var label = labels[i];
+            if (maxLabelLength > 0 && label.length > maxLabelLength) {
+                label = label.substring(0, maxLabelLength) + '…';
+            }
+            legendHtml += `
+                <div class="legend-row">
+                    <div class="color-indicator" style="background-color: ${color};"></div>
+                    <span title="${labels[i]}">${label}</span>
+                </div>
+            `;
+        }
+        legendDiv.innerHTML = legendHtml;
+    }
+
+    // Renderiza hotu-hotu gráfiku pie
+    createPieChart('chartPostu', 'legendPostu', postuLabels, postuData, postuColors);
+    createPieChart('chartGeneru', 'legendGeneru', generuLabels, generuData, generuColors);
+    createPieChart('chartServisu', 'legendServisu', servisuLabels, servisuData, servisuColors, 30);
+    createPieChart('chartFatinServisu', 'legendFatinServisu', fatinServisuLabels, fatinServisuData, fatinServisuColors, 30);
+    createPieChart('chartIdade', 'legendIdade', idadeLabels, idadeData, idadeColors);
+    createPieChart('chartHabilitasaun', 'legendHabilitasaun', habilitasaunLabels, habilitasaunData, habilitasaunColors, 30);
+    createPieChart('chartHelaFatin', 'legendHelaFatin', helaFatinLabels, helaFatinData, helaFatinColors);
+    createPieChart('chartProfisaunDetallu', 'legendProfisaunDetallu', profisaunLabels, profisaunData, profisaunColors, 30);
+});
+</script>
+
+<style>
+  .fixed_height_140 { height: 140px; min-height: 140px; }
+  .x_panel {
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+  }
+  .x_panel:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+  .x_title {
+    border-bottom: 2px solid #E6E9ED;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+  }
+  .x_title h2 {
+    margin: 5px 0 6px;
+    float: left;
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+  }
+  .chart-container-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 20px 5px;
+  }
+  .pie-chart-visual { 
+    width: 250px; 
+    height: 250px; 
+    position: relative; 
+  }
+
+  
+  .pie-chart-visual canvas{
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .pie-legend-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 160px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 5px;
+  }
+  .legend-row {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #444;
+    font-weight: 500;
+  }
+  .color-indicator {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .badge-primary { background: #007bff; }
+  .badge-info { background: #17a2b8; }
+  canvas { max-height: 300px; }
+  .dropdown-menu { min-width: 200px; }
+  .dropdown-menu li a i { margin-right: 8px; }
+  thead tr:first-child th {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+  }
+</style>
+{% endblock %}

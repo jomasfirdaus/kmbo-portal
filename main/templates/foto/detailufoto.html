@@ -1,0 +1,75 @@
+{% extends "portal/kmbomenu.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block konteudu1 %}
+
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>{% trans "Detallu Imagen" %}</h2>
+        <ol>
+          <li><a href="{% url 'dashboardkmbo' %}">{% trans "Baranda" %}</a></li>
+          <li><a href="{% url 'showcover' %}">{% trans "Imagen" %}</a></li>
+          <li>{% trans "Detallu Imagen" %}</li>
+        </ol>
+      </div>
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  <style>
+    /* Estilu ba swiper-slide imagen */
+    .portfolio-details-slider .swiper-slide img {
+      width: 100%;          /* Preenche largura container */
+      max-height: 500px;    /* Tama-an máximu altura, bele muda */
+      object-fit: contain;  /* Mantén foto hela kompletu, la corta */
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    /* Responsivu padu liu */
+    @media (max-width: 768px) {
+      .portfolio-details-slider .swiper-slide img {
+        max-height: 300px;
+      }
+    }
+  </style>
+
+  <!-- ======= Portfolio Details Section ======= -->
+  <section id="portfolio-details" class="portfolio-details">
+    <div class="container" data-aos="fade-up">
+      <div class="row gy-4">
+
+        <div class="col-lg-8">
+          <div class="portfolio-details-slider swiper">
+            <div class="swiper-wrapper align-items-center">
+              {% for dados in foto %}
+                {% for image in dados.foto.all %}
+                  <div class="swiper-slide">
+                    <img src="{{ image.pic.url }}" alt="{{ dados.titulu }}" class="img-fluid">
+                  </div>
+                {% endfor %}
+              {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="portfolio-description">
+            <h2>{{ galeria.titulu }}</h2>
+            <p>
+              {{ galeria.deskrisaun }}
+            </p>
+            <p><strong>{% trans "Data" %}:</strong> {{ galeria.data|date:"d M Y" }}</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- End Portfolio Details Section -->
+
+</main>
+
+{% endblock %}

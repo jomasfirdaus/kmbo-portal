@@ -1,0 +1,622 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-16 14:41+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: main/forms.py:447 main/forms.py:520 main/forms.py:747
+msgid "Lingua"
+msgstr "Língua"
+
+#: main/forms.py:448 main/templates/video/show.html:31
+msgid "Titulu"
+msgstr "Título"
+
+#: main/forms.py:449
+msgid "Imajen Cover"
+msgstr "Imagem de Capa"
+
+#: main/forms.py:450 main/forms.py:523 main/templates/anunsiu/show.html:30
+#: main/templates/atividadesocialnokultura/show.html:29
+#: main/templates/dokumentusimportantes/show.html:29
+#: main/templates/edukasauncivika/show.html:29
+#: main/templates/finansiamentunoapoiu/show.html:29
+#: main/templates/juventudenolideransa/show.html:29
+#: main/templates/kontaktuami/show.html:29
+#: main/templates/noti/detailnotisia.html:35
+#: main/templates/parseirakomunidade/show.html:29
+#: main/templates/publikasaunkmbo/show.html:29
+#: main/templates/registupartisipante/show.html:29
+#: main/templates/registuvoluntariu/show.html:29
+#: main/templates/treinamentunoformasaun/show.html:29
+#: main/templates/video/show.html:33
+msgid "Data Publikasaun"
+msgstr "Data de Publicação"
+
+#: main/forms.py:521
+msgid "Titulu Video"
+msgstr "Título do Vídeo"
+
+#: main/forms.py:522
+msgid "Link Video"
+msgstr "Link do Vídeo"
+
+#: main/forms.py:731 main/templates/organograma/update.html:38
+msgid "Atualiza"
+msgstr "Atualizar"
+
+#: main/forms.py:731
+msgid "Rejistu"
+msgstr "Registrar"
+
+#: main/forms.py:735 main/templates/anunsiu/input.html:34
+msgid "Kansela"
+msgstr "Cancelar"
+
+#: main/forms.py:746
+msgid "Títulu"
+msgstr "Título"
+
+#: main/forms.py:748 main/templates/anunsiu/show.html:27
+#: main/templates/atividadesocialnokultura/show.html:27
+#: main/templates/dokumentusimportantes/show.html:27
+#: main/templates/edukasauncivika/show.html:27
+#: main/templates/finansiamentunoapoiu/show.html:27
+#: main/templates/juventudenolideransa/show.html:27
+#: main/templates/kontaktuami/show.html:27
+#: main/templates/parseirakomunidade/show.html:27
+#: main/templates/publikasaunkmbo/show.html:27
+#: main/templates/registupartisipante/show.html:27
+#: main/templates/registuvoluntariu/show.html:27
+#: main/templates/treinamentunoformasaun/show.html:27
+msgid "Deskrisaun"
+msgstr "Descrição"
+
+#: main/templates/Vizaun_misaun/lista.html:51
+msgid "Historia"
+msgstr "História"
+
+#: main/templates/Vizaun_misaun/lista.html:57
+msgid "Vizaun"
+msgstr "Visão"
+
+#: main/templates/Vizaun_misaun/lista.html:69
+msgid "Objetivu Principal"
+msgstr "Objetivo Principal"
+
+#: main/templates/Vizaun_misaun/show.html:11
+#: main/templates/organograma/show.html:11
+msgid "Kona-ba Ami"
+msgstr "Sobre Nós"
+
+#: main/templates/Vizaun_misaun/show.html:13 main/templates/artigu/show.html:13
+#: main/templates/foto/detailufoto.html:14
+#: main/templates/galeria/showcover.html:13
+#: main/templates/kontaktu/input.html:13 main/templates/noti/show1.html:14
+#: main/templates/organograma/show.html:13 main/templates/projetu/show.html:93
+#: main/templates/video/showvideo.html:14
+#: main/templates/atividade/showatividade.html:14
+msgid "Baranda"
+msgstr "Página Inicial"
+
+#: main/templates/Vizaun_misaun/show.html:14
+msgid "História, Vizãun, Objetivu Prinsipál, Misaun"
+msgstr "História, Visão, Objetivos Principais, Missão"
+
+#: main/templates/anunsiu/input.html:15 main/templates/anunsiu/show.html:7
+msgid "Anunsiu"
+msgstr "Anúncio"
+
+#: main/templates/anunsiu/input.html:31
+msgid "Submete"
+msgstr "Submeter"
+
+#: main/templates/anunsiu/show.html:8
+msgid ""
+"Atu hatene rekizitus sira, favor download ka loke dokumentu pdf atu hare "
+"informasaun detallu"
+msgstr ""
+"Para conhecer os requisitos, por favor faça download ou abra o documento PDF "
+"para ver informações detalhadas"
+
+#: main/templates/anunsiu/show.html:25 main/templates/galeria/show.html:22
+#: main/templates/video/show.html:30 portal/templates/perfil/lista.html:33
+msgid "Nu"
+msgstr "Nº"
+
+#: main/templates/anunsiu/show.html:26
+#: main/templates/atividadesocialnokultura/show.html:26
+#: main/templates/dokumentusimportantes/show.html:26
+#: main/templates/edukasauncivika/show.html:26
+#: main/templates/finansiamentunoapoiu/show.html:26
+#: main/templates/galeria/show.html:23
+#: main/templates/juventudenolideransa/show.html:26
+#: main/templates/kontaktuami/show.html:26
+#: main/templates/parseirakomunidade/show.html:26
+#: main/templates/publikasaunkmbo/show.html:26
+#: main/templates/registupartisipante/show.html:26
+#: main/templates/registuvoluntariu/show.html:26
+#: main/templates/treinamentunoformasaun/show.html:26
+msgid "Títlu"
+msgstr "Título"
+
+#: main/templates/anunsiu/show.html:29
+#: main/templates/atividadesocialnokultura/show.html:41
+#: main/templates/dokumentusimportantes/show.html:41
+#: main/templates/edukasauncivika/show.html:41
+#: main/templates/finansiamentunoapoiu/show.html:41
+#: main/templates/juventudenolideransa/show.html:41
+#: main/templates/kontaktuami/show.html:41
+#: main/templates/parseirakomunidade/show.html:41
+#: main/templates/publikasaunkmbo/show.html:41
+#: main/templates/registupartisipante/show.html:41
+#: main/templates/registuvoluntariu/show.html:41
+#: main/templates/treinamentunoformasaun/show.html:41
+msgid "Dokumentu"
+msgstr "Documento"
+
+#: main/templates/artigu/show.html:11 main/templates/artigu/show.html:14
+#: main/templates/artigu/show.html:25
+msgid "Artigu / Opinia"
+msgstr "Artigo / Opinião"
+
+#: main/templates/artigu/show.html:26
+msgid "KMBO nia Programa no Servisu Relasiona ho Artigu"
+msgstr "Programas e Serviços do KMBO Relacionados a Artigos"
+
+#: main/templates/artigu/show.html:35
+msgid "Data:"
+msgstr "Data:"
+
+#: main/templates/artigu/show.html:38
+msgid "Le’e Dokumentus"
+msgstr "Ler Documentos"
+
+#: main/templates/artigu/show.html:45
+msgid "La iha artigu nebee disponivel."
+msgstr "Não há artigos disponíveis."
+
+#: main/templates/atividadesocialnokultura/show.html:7
+#: main/templates/dokumentusimportantes/show.html:7
+#: main/templates/edukasauncivika/show.html:7
+#: main/templates/finansiamentunoapoiu/show.html:7
+#: main/templates/juventudenolideransa/show.html:7
+#: main/templates/kontaktuami/show.html:7
+#: main/templates/parseirakomunidade/show.html:7
+#: main/templates/publikasaunkmbo/show.html:7
+#: main/templates/registupartisipante/show.html:7
+#: main/templates/registuvoluntariu/show.html:7
+#: main/templates/treinamentunoformasaun/show.html:7
+msgid "Servisu Normalizasaun"
+msgstr "Serviços de Normalização"
+
+#: main/templates/atividadesocialnokultura/show.html:8
+#: main/templates/dokumentusimportantes/show.html:8
+#: main/templates/edukasauncivika/show.html:8
+#: main/templates/finansiamentunoapoiu/show.html:8
+#: main/templates/juventudenolideransa/show.html:8
+#: main/templates/kontaktuami/show.html:8
+#: main/templates/parseirakomunidade/show.html:8
+#: main/templates/publikasaunkmbo/show.html:8
+#: main/templates/registupartisipante/show.html:8
+#: main/templates/registuvoluntariu/show.html:8
+#: main/templates/treinamentunoformasaun/show.html:8
+msgid "Hare informasaun detallu kona-ba Servisu Normalizasaun"
+msgstr "Ver informações detalhadas sobre Serviços de Normalização"
+
+#: main/templates/atividadesocialnokultura/show.html:25
+#: main/templates/dokumentusimportantes/show.html:25
+#: main/templates/edukasauncivika/show.html:25
+#: main/templates/finansiamentunoapoiu/show.html:25
+#: main/templates/juventudenolideransa/show.html:25
+#: main/templates/kontaktuami/show.html:25
+#: main/templates/parseirakomunidade/show.html:25
+#: main/templates/publikasaunkmbo/show.html:25
+#: main/templates/registupartisipante/show.html:25
+#: main/templates/registuvoluntariu/show.html:25
+#: main/templates/treinamentunoformasaun/show.html:25
+msgid "No."
+msgstr "Nº"
+
+#: main/templates/atividadesocialnokultura/show.html:28
+#: main/templates/dokumentusimportantes/show.html:28
+#: main/templates/edukasauncivika/show.html:28
+#: main/templates/finansiamentunoapoiu/show.html:28
+#: main/templates/juventudenolideransa/show.html:28
+#: main/templates/kontaktuami/show.html:28
+#: main/templates/parseirakomunidade/show.html:28
+#: main/templates/publikasaunkmbo/show.html:28
+#: main/templates/registupartisipante/show.html:28
+#: main/templates/registuvoluntariu/show.html:28
+#: main/templates/treinamentunoformasaun/show.html:28
+msgid "Dokumentus"
+msgstr "Documentos"
+
+#: main/templates/detail_notisia/input.html:8
+msgid "Input Detallu Notisia"
+msgstr "Inserir Detalhes da Notícia"
+
+#: main/templates/foto/detailufoto.html:12
+#: main/templates/foto/detailufoto.html:16
+msgid "Detallu Imagen"
+msgstr "Detalhes da Imagem"
+
+#: main/templates/foto/detailufoto.html:15
+msgid "Imagen"
+msgstr "Imagem"
+
+#: main/templates/foto/detailufoto.html:65
+msgid "Data"
+msgstr "Data"
+
+#: main/templates/galeria/show.html:5 main/templates/galeria/showcover.html:11
+#: main/templates/galeria/showcover.html:14
+msgid "Galeria"
+msgstr "Galeria"
+
+#: main/templates/galeria/show.html:6
+msgid "Atu hare Imagen ba eventu, bele klik iha album hodi hare"
+msgstr "Para ver imagens do evento, clique no álbum para visualizar"
+
+#: main/templates/galeria/show.html:24
+msgid "Tinan Fiskal"
+msgstr "Ano Fiscal"
+
+#: main/templates/galeria/show.html:25
+msgid "Relatoriu"
+msgstr "Relatório"
+
+#: main/templates/galeria/show.html:26
+msgid "Download"
+msgstr "Download"
+
+#: main/templates/galeria/showcover.html:63
+#: main/templates/video/showvideo.html:34
+msgid "Kompletu"
+msgstr "Completo"
+
+#: main/templates/kontaktu/input.html:11 main/templates/kontaktu/input.html:14
+msgid "Informasaun kontaktu"
+msgstr "Informação de Contato"
+
+#: main/templates/kontaktu/input.html:24 portal/templates/perfil/lista.html:36
+msgid "Kontaktu"
+msgstr "Contato"
+
+#: main/templates/kontaktu/input.html:25
+msgid ""
+"Atu hatene informasaun klaru, bele kontaktu ami liu husi Email, Telemovel ka "
+"vizita direktu."
+msgstr ""
+"Para obter informações claras, você pode nos contatar via Email, Telefone "
+"Celular ou visita direta."
+
+#: main/templates/kontaktu/input.html:40
+msgid "Enderesu"
+msgstr "Endereço"
+
+#: main/templates/kontaktu/input.html:57
+msgid "Mapa Lokalizasaun"
+msgstr "Mapa de Localização"
+
+#: main/templates/kontaktu/input.html:66
+msgid "Sede KMBO Maliana"
+msgstr "Sede do KMBO Maliana"
+
+#: main/templates/kontaktu/input.html:75
+msgid "Formuláriu Kontaktu"
+msgstr "Formulário de Contato"
+
+#: main/templates/lingua/input.html:8 main/templates/lingua/update.html:8
+msgid "Input Lingua"
+msgstr "Inserir Idioma"
+
+#: main/templates/noti/detailnotisia.html:33
+msgid "Konteudu"
+msgstr "Conteúdo"
+
+#: main/templates/noti/detailnotisia.html:36
+msgid "Status"
+msgstr "Status"
+
+#: main/templates/noti/detailnotisia.html:56
+msgid "Review"
+msgstr "Revisão"
+
+#: main/templates/noti/detailnotisia.html:71
+#: main/templates/noti/detailnotisia.html:75
+msgid "Publika"
+msgstr "Publicar"
+
+#: main/templates/noti/detailnotisia.html:81
+#: main/templates/noti/detailnotisia.html:85
+msgid "Kansela Publikasaun"
+msgstr "Cancelar Publicação"
+
+#: main/templates/noti/detailnotisia.html:97
+msgid "Halo Atualizasaun"
+msgstr "Fazer Atualização"
+
+#: main/templates/noti/show1.html:12 main/templates/noti/show1.html:15
+msgid "Notisia"
+msgstr "Notícias"
+
+#: main/templates/noti/show1.html:55
+msgid "Le'e Detallu"
+msgstr "Ler Mais"
+
+#: main/templates/noti/show1.html:62
+msgid "La iha notisia publikadu."
+msgstr "Não há notícias publicadas."
+
+#: main/templates/noti/show1.html:85
+msgid "Peskija Informasaun"
+msgstr "Pesquisar Informação"
+
+#: main/templates/noti/show1.html:117
+msgid "Kategoria Informasaun"
+msgstr "Categoria de Informação"
+
+#: main/templates/noti/show1.html:125
+msgid "La iha kategoria."
+msgstr "Não há categorias disponíveis."
+
+#: main/templates/noti/show1.html:132
+msgid "Notisia Relevante"
+msgstr "Notícias Relevantes"
+
+#: main/templates/organograma/input.html:8
+msgid "Input dadus Organograma"
+msgstr "Inserir Dados do Organograma"
+
+#: main/templates/organograma/show.html:14
+msgid "Organograma"
+msgstr "Organograma"
+
+#: main/templates/organograma/update.html:13
+msgid "Hadia Organograma"
+msgstr "Editar Organograma"
+
+#: main/templates/organograma/update.html:31
+#: main/templates/organograma/update.html:32
+msgid "Current Image"
+msgstr "Imagem Atual"
+
+#: main/templates/organograma/update.html:41
+msgid "Kancela"
+msgstr "Cancelar"
+
+#: main/templates/projetu/show.html:91
+msgid "Projetu"
+msgstr "Projeto"
+
+#: main/templates/projetu/show.html:94
+msgid "Projetu Sira"
+msgstr "Projetos"
+
+#: main/templates/video/show.html:12 main/templates/video/showvideo.html:12
+#: main/templates/video/showvideo.html:25
+msgid "Video"
+msgstr "Vídeo"
+
+#: main/templates/video/show.html:13
+msgid "Atu asesu ba video, klik link iha anexu (Hare Video) "
+msgstr "Para acessar o vídeo, clique no link no anexo (Ver Vídeo)"
+
+#: main/templates/video/show.html:32
+msgid "Link"
+msgstr "Link"
+
+#: main/templates/video/showvideo.html:15
+msgid "Video Sira"
+msgstr "Vídeos"
+
+#: main/templates/video/showvideo.html:54
+msgid "La iha video"
+msgstr "Não há vídeos disponíveis"
+
+#: portal/forms.py:13
+msgid "Password"
+msgstr "Senha"
+
+#: portal/forms.py:20
+msgid "Confirm Password"
+msgstr "Confirmar Senha"
+
+#: portal/forms.py:81
+msgid "Passwords do not match."
+msgstr "As senhas não coincidem."
+
+#: portal/forms.py:90
+msgid "Old password"
+msgstr "Senha antiga"
+
+#: portal/forms.py:95
+msgid "New password"
+msgstr "Nova senha"
+
+#: portal/forms.py:101
+msgid "Confirm new password"
+msgstr "Confirmar nova senha"
+
+#: portal/templates/perfil/lista.html:34
+msgid "Naran"
+msgstr "Nome"
+
+#: portal/templates/perfil/lista.html:35
+msgid "Email"
+msgstr "Email"
+
+#: portal/templates/perfil/lista.html:37
+msgid "Pozisaun"
+msgstr "Posição"
+
+#: portal/templates/perfil/lista.html:38
+msgid "Username"
+msgstr "Nome de usuário"
+
+#: portal/templates/perfil/lista.html:39
+msgid "Foto"
+msgstr "Foto"
+
+#: portal/templates/perfil/lista.html:40
+msgid "Level"
+msgstr "Nível"
+
+#: portal/templates/perfil/lista.html:41
+msgid "Asaun"
+msgstr "Ação"
+
+#: portal/templates/portal/kmbomenu.html:37
+msgid "BARANDA"
+msgstr "PÁGINA INICIAL"
+
+#: portal/templates/portal/kmbomenu.html:40
+msgid "KONA-BA AMI"
+msgstr "SOBRE NÓS"
+
+#: portal/templates/portal/kmbomenu.html:42
+msgid "PERFIL KMBO"
+msgstr "PERFIL KMBO"
+
+#: portal/templates/portal/kmbomenu.html:43
+msgid "ESTRUTURA ORGANIZATIVA"
+msgstr "ESTRUTURA ORGANIZACIONAL"
+
+#: portal/templates/portal/kmbomenu.html:44
+#: main/templates/ekipakmbo/show.html:28
+#, fuzzy
+msgid "EKIPA KMBO"
+msgstr ""
+"#-#-#-#-#  django.po (PACKAGE VERSION)  #-#-#-#-#\n"
+"EQUIPE KMBO\n"
+"#-#-#-#-#  django.po (PACKAGE VERSION)  #-#-#-#-#\n"
+"EQUIPA KMBO"
+
+#: portal/templates/portal/kmbomenu.html:48
+msgid "ATIVIDADE"
+msgstr "ATIVIDADES"
+
+#: portal/templates/portal/kmbomenu.html:49
+msgid "PROJETU"
+msgstr "PROJETOS"
+
+#: portal/templates/portal/kmbomenu.html:52
+msgid "PUBLIKASAUN"
+msgstr "PUBLICAÇÕES"
+
+#: portal/templates/portal/kmbomenu.html:54
+msgid "NOTISIA LOKAL KMBO"
+msgstr "NOTÍCIAS LOCAIS KMBO"
+
+#: portal/templates/portal/kmbomenu.html:55
+msgid "ARTIGU"
+msgstr "ARTIGOS"
+
+#: portal/templates/portal/kmbomenu.html:56
+msgid "GALERIA"
+msgstr "GALERIA"
+
+#: portal/templates/portal/kmbomenu.html:57
+msgid "VIDEO"
+msgstr "VÍDEO"
+
+#: portal/templates/portal/kmbomenu.html:61
+msgid "KONTAKTU AMI"
+msgstr "CONTATE-NOS"
+
+#: portal/templates/portal/main.html:141
+msgid "Welcome...!"
+msgstr "Bem-vindo...!"
+
+#: portal/templates/portal/main.html:279
+msgid "Perfil"
+msgstr "Perfil"
+
+#: portal/templates/portal/main.html:280
+msgid "Log Out"
+msgstr "Sair"
+
+#: portal/templates/portal/sidebarkmbo.html:64
+msgid "MENSAJEN HUSI KOORDENADÓR KMBO"
+msgstr "MENSAGEM DO COORDENADOR KMBO"
+
+#: portal/templates/portal/sidebarkmbo.html:85
+msgid "INFORMASAUN JERÁL KONA-BA KMBO"
+msgstr "INFORMAÇÕES GERAIS SOBRE O KMBO"
+
+#: portal/templates/portal/sidebarkmbo.html:108
+msgid "PARSEIRU SIRA"
+msgstr "PARCEIROS"
+
+#: main/templates/atividade/showatividade.html:12
+#: main/templates/atividade/showatividade.html:15
+#: main/templates/atividade/showatividade.html:26
+msgid "Atividade Sira"
+msgstr "Atividades"
+
+#: main/templates/atividade/showatividade.html:27
+msgid "KMBO nia Programa no Servisu Prinsipál"
+msgstr "Programas e Serviços Principais da KMBO"
+
+#: main/templates/atividade/showatividade.html:42
+msgid "Atividade la iha"
+msgstr "Nenhuma atividade disponível"
+
+#: main/templates/projetu/show.html:104
+msgid "PROJETU SIRA"
+msgstr "PROJETOS"
+
+#: main/templates/projetu/show.html:111
+msgid "Projetu iha Prosesu"
+msgstr "Projeto em andamento"
+
+#: main/templates/projetu/show.html:135
+msgid "Projetu Kumpri"
+msgstr "Conformidade do projeto"
+
+#: main/templates/projetu/show.html:126
+msgid "implementasaun"
+msgstr "implementação"
+
+#: main/templates/projetu/show.html:150
+msgid "Remata"
+msgstr "Fim"
+
+#: main/templates/projetu/show.html:154
+msgid "La iha projetu kumpri."
+msgstr "Nenhum projeto realizado."
+
+#: main/templates/Vizaun_misaun/show.html:30
+msgid "História"
+msgstr "História"
+
+#: main/templates/Vizaun_misaun/show.html:38
+msgid "Vizãun"
+msgstr "Visão"
+
+#: main/templates/Vizaun_misaun/show.html:50
+msgid "Objetivu Prinsipál"
+msgstr "Objetivo Principal"
+
+#: main/templates/Vizaun_misaun/show.html:59
+msgid "Misaun"
+msgstr "Missão"
+
+#: main/templates/ekipakmbo/show.html:29
+msgid "EKIPA PRINCIPAL KMBO"
+msgstr "EQUIPA PRINCIPAL DO KMBO"

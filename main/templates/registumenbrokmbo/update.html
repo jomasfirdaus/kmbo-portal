@@ -1,0 +1,347 @@
+{% extends "portal/main.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load sbr_id_jms %}
+{% load i18n %}
+
+{% block content %}
+<!-- page content -->
+<div class="right_col" role="main">
+  <div class="clearfix"></div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+            <h2><i class="fa fa-edit"></i> <span class="lapiz-style">Atualiza Partisipante</span></h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            <div class="card-content">
+                <!-- Sekção Mensajem ho validasaun kompletu -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert" style="white-space: pre-wrap; font-family: monospace; border-left: 5px solid {% if message.tags == 'error' %}#dc3545{% elif message.tags == 'success' %}#28a745{% else %}#ffc107{% endif %};">
+                            {% if message.tags == 'error' %}
+                                <i class="fa fa-exclamation-triangle me-2"></i>
+                            {% elif message.tags == 'success' %}
+                                <i class="fa fa-check-circle me-2"></i>
+                            {% else %}
+                                <i class="fa fa-info-circle me-2"></i>
+                            {% endif %}
+                            
+                            {{ message }}
+                            
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <!-- Hatudu non-field errors husi form -->
+                {% if form.non_field_errors %}
+                    <div class="alert alert-warning" style="border-left: 5px solid #ffc107;">
+                        <i class="fa fa-exclamation-circle me-2"></i>
+                        {% for error in form.non_field_errors %}
+                            <p class="mb-0" style="white-space: pre-wrap; font-family: monospace;">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data" id="update-form" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                      <div class="col-md-12">
+                        {{ form.naran_kompletu|as_crispy_field }}
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-md-4">{{ form.idade|as_crispy_field }}</div>
+                      <div class="col-md-4">{{ form.generu|as_crispy_field }}</div>
+                      <div class="col-md-4">
+                        {{ form.nomor_eleitoral_bi|as_crispy_field }}
+                        <small class="text-muted">
+                            <i class="fa fa-info-circle"></i> 
+                            Eleitoral: numeru deit (8-12) | BI: Letra+Numeru (6-15)
+                        </small>
+                        <!-- Hatudu tipu dokumentu atual -->
+                        {% if form.instance.tipu_dokumentu %}
+                            <div class="mt-1">
+                                <span class="label label-{% if form.instance.tipu_dokumentu == 'ELEITORAL' %}primary{% else %}success{% endif %}">
+                                    <i class="fa fa-id-card"></i> 
+                                    {% if form.instance.tipu_dokumentu == 'ELEITORAL' %}
+                                        Kartaun Eleitoral
+                                    {% else %}
+                                        Bilhete Identidade (BI)
+                                    {% endif %}
+                                </span>
+                            </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-md-6">{{ form.hela_fatin_atual|as_crispy_field }}</div>
+                      <div class="col-md-6">{{ form.posto|as_crispy_field }}</div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-md-12">{{ form.habilitasaun_literaria|as_crispy_field }}</div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-md-6">{{ form.servisu_hanesan|as_crispy_field }}</div>
+                      <div class="col-md-6">{{ form.fatin_servisu|as_crispy_field }}</div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-md-6">{{ form.telefone|as_crispy_field }}</div>
+                      <div class="col-md-6">{{ form.email|as_crispy_field }}</div>
+                    </div>
+                    
+                    <!-- Kampu hidden ba naran anterior -->
+                    {{ form.naran_anterior }}
+                    
+                    <div class="text-center mt-4">
+                      <button class="btn btn-info" type="submit" id="submit-btn">
+                          <i class="fa fa-edit"></i> Atualiza
+                      </button>
+                      <a class="btn btn-danger" href="{% url 'listaregistumenbrokmbo' %}" id="cancel-btn">
+                          <i class="fa fa-close"></i> Kansela
+                      </a>
+                    </div>                            
+                </form>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CSS atu hadi'a estilo mensajen no validasaun -->
+<style>
+    /* Estilu ba alert mensajen formatadu */
+    .alert {
+        white-space: pre-wrap;
+        font-family: 'Courier New', monospace;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+    }
+    
+    .alert-danger {
+        background-color: #f2dede;
+        border-color: #ebccd1;
+        color: #a94442;
+    }
+    
+    .alert-success {
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+        color: #3c763d;
+    }
+    
+    .alert-warning {
+        background-color: #fcf8e3;
+        border-color: #faebcc;
+        color: #8a6d3b;
+    }
+    
+    .alert-info {
+        background-color: #d9edf7;
+        border-color: #bce8f1;
+        color: #31708f;
+    }
+    
+    /* Estilu ba field errors */
+    .has-error .form-control {
+        border-color: #a94442;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    }
+    
+    .has-error .control-label,
+    .has-error .help-block,
+    .has-error .form-control-feedback {
+        color: #a94442;
+    }
+    
+    .errorlist {
+        color: #a94442;
+        list-style: none;
+        padding-left: 0;
+        margin-top: 5px;
+        margin-bottom: 0;
+        font-size: 0.9em;
+    }
+    
+    .errorlist li {
+        margin-bottom: 2px;
+    }
+    
+    /* Estilu ba label dokumentu */
+    .label {
+        display: inline-block;
+        padding: 3px 7px;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 3px;
+    }
+    
+    .label-primary {
+        background-color: #337ab7;
+        color: white;
+    }
+    
+    .label-success {
+        background-color: #5cb85c;
+        color: white;
+    }
+    
+    /* Estilu ba tooltip */
+    .text-muted {
+        color: #777;
+        font-size: 0.85em;
+        margin-top: 5px;
+        display: block;
+    }
+    
+    /* Animasaun ba alert */
+    .alert {
+        opacity: 1;
+        transition: opacity 0.3s ease-in-out;
+    }
+    
+    .alert.fade {
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+    
+    /* Estilu ba botoes */
+    .btn {
+        margin: 0 5px;
+    }
+    
+    .btn-info {
+        background-color: #23c6c8;
+        border-color: #23c6c8;
+        color: white;
+    }
+    
+    .btn-info:hover {
+        background-color: #1ca3a5;
+        border-color: #1ca3a5;
+    }
+    
+    .btn-danger {
+        background-color: #ed5565;
+        border-color: #ed5565;
+        color: white;
+    }
+    
+    .btn-danger:hover {
+        background-color: #d43f4f;
+        border-color: #d43f4f;
+    }
+    
+    /* Responsividade */
+    @media (max-width: 768px) {
+        .x_content {
+            padding: 0 15px;
+        }
+        
+        .btn {
+            width: 100%;
+            margin: 5px 0;
+        }
+    }
+</style>
+
+<!-- JavaScript ba validasaun form -->
+<script>
+(function() {
+    'use strict';
+    
+    // Validasaun form ho bootstrap
+    var forms = document.querySelectorAll('.needs-validation');
+    
+    Array.prototype.slice.call(forms)
+        .forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            }, false);
+        });
+    
+    // Auto-dismiss alert after 10 seconds (except error messages)
+    setTimeout(function() {
+        var alerts = document.querySelectorAll('.alert:not(.alert-danger)');
+        alerts.forEach(function(alert) {
+            alert.classList.add('fade');
+            setTimeout(function() {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 300);
+        });
+    }, 10000);
+    
+    // Konfirmasaun antes atualiza
+    document.getElementById('update-form').addEventListener('submit', function(e) {
+        var nomor = document.getElementById('id_nomor_eleitoral_bi').value;
+        var naran = document.getElementById('id_naran_kompletu').value;
+        
+        if (nomor && naran) {
+            if (!confirm('Ita seguru atu atualiza dadus ' + naran + '?')) {
+                e.preventDefault();
+                return false;
+            }
+        }
+    });
+    
+    // Validasaun formatu dokumentu iha cliente side
+    document.getElementById('id_nomor_eleitoral_bi').addEventListener('blur', function() {
+        var nomor = this.value.trim().toUpperCase();
+        var errorSpan = this.parentNode.querySelector('.error-message');
+        
+        if (errorSpan) {
+            errorSpan.remove();
+        }
+        
+        if (nomor) {
+            if (nomor.match(/^\d+$/)) { // Eleitoral
+                if (nomor.length < 8 || nomor.length > 12) {
+                    this.classList.add('has-error');
+                    var error = document.createElement('div');
+                    error.className = 'error-message text-danger small';
+                    error.innerHTML = '<i class="fa fa-exclamation-circle"></i> Nomor Eleitoral tenke iha entre 8-12 numeru!';
+                    this.parentNode.appendChild(error);
+                } else {
+                    this.classList.remove('has-error');
+                }
+            } else { // BI
+                if (!nomor.match(/^[A-Z0-9]{6,15}$/)) {
+                    this.classList.add('has-error');
+                    var error = document.createElement('div');
+                    error.className = 'error-message text-danger small';
+                    error.innerHTML = '<i class="fa fa-exclamation-circle"></i> Formatu BI la validu! (6-15 karakter, Letra boot no numeru deit)';
+                    this.parentNode.appendChild(error);
+                } else {
+                    this.classList.remove('has-error');
+                }
+            }
+        }
+    });
+})();
+</script>
+{% endblock %}

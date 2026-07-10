@@ -1,0 +1,24 @@
+{% extends "portal/main.html" %} {% load crispy_forms_tags %} {% block content %} {% load i18n %}
+
+
+<div class="container-fluid">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title fw-semibold mb-4">Kompleta Formulariu</h5>
+                <div class="card">
+                    <div class="card-body">
+
+
+                        {% csrf_token %}
+                        {% crispy form %}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "portal/main.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load i18n %}
+{% load static %}
+
+<div class="right_col" role="main">
+  <div class="">
+    <div class="row top_tiles">
+      
+      <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="tile-stats tile-publika">
+          <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+          <div class="count">{{ publika_count }}</div>
+          <h3>Notisia Publikada</h3>
+          <p>Notisia ne'ebe publika ona</p>
+        </div>
+      </div>
+      
+      <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="tile-stats tile-pendente">
+          <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
+          <div class="count">{{ pendente_count }}</div>
+          <h3>Notisia Pendente</h3>
+          <p>Notisia pendente hela</p>
+        </div>
+      </div>
+      
+      <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="tile-stats tile-revizaun">
+          <div class="icon"><i class="fa fa-check-square-o"></i></div>
+          <div class="count">{{ review_count }}</div>
+          <h3>Notisia Revizaun</h3>
+          <p>Notisia ne'e revizaun ona</p>
+        </div>
+      </div>
+      
+      <a href="{% url 'listakontaktu' %}" style="text-decoration: none; color: inherit;">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div class="tile-stats tile-mensajen">
+            <div class="icon"><i class="fa fa-comments-o"></i></div>
+            <div class="count">{{ contact_count }}</div>
+            <h3>Mensajen Tama</h3>
+            <p>Kontaktu online sira</p>
+          </div>
+        </div>
+      </a>
+      
+    </div>
+  </div>
+</div>
+
+<style>
+  .tile-stats {
+    background-color: #fff; /* Fundo bran */
+    border-radius: 8px;     /* kantos hasoru */
+    padding: 20px;          /* espacamentu internu */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* sombra maluk */
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 140px;
+  }
+
+  .tile-stats:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .tile-stats .icon {
+    font-size: 30px;      /* Boot liu */
+    color: #007bff;       /* Azul default */
+    position: absolute;
+    top: 10px;
+    right: 40px;
+    opacity: 0.3;
+  }
+
+  .tile-stats .count {
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #333;
+  }
+
+  .tile-stats h3 {
+    margin: 0 0 5px 0;
+    font-weight: 500;
+  }
+
+  .tile-stats p {
+    margin: 0;
+    color: #666;
+  }
+
+  /* Kor ba kada tile ne'ebé diferente */
+  .tile-publika {
+    border-left: 5px solid #28a745; /* Verde */
+  }
+  .tile-pendente {
+    border-left: 5px solid #fd7e14; /* Laranja */
+  }
+  .tile-revizaun {
+    border-left: 5px solid #007bff; /* Azul */
+  }
+  .tile-mensajen {
+    border-left: 5px solid #dc3545; /* Vermelha */
+  }
+</style>
+
+{% endblock %}

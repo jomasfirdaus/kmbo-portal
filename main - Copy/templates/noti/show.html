@@ -1,0 +1,118 @@
+{% extends "portal/sidebarkmbo.html" %} {% load static %} {% load crispy_forms_tags %} {% block konteudu1 %}
+{% load i18n %}
+
+<main id="main">
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Detallu Informasaun</h2>
+          <ol>
+            <li><a href="{% url 'dashboardkmbo' %}">Baranda</a></li>
+            <li><a href="{% url 'dashboardkmbo' %}">Notisia</a></li>
+            <li>Detallu Informasaun</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Blog Single Section ======= -->
+    <section id="blog" class="blog">
+      <div class="container" data-aos="fade-up">
+        <div class="row">
+          <div class="col-lg-8 entries">
+            <article class="entry entry-single">
+            {% if notisia.imajen %}
+              <div class="entry-img">
+                <img src="{{ notisia.imajen.image.url }}" alt="" class="img-fluid">
+              </div>
+            {% endif %}
+              <h2 class="entry-title">
+                <a href="{% url 'shownotisia' slug=notisia.slug %}">{{ notisia.titlu }}</a>
+              </h2>
+                <p>{{ notisia.konteudu|safe }}</p>
+                <div class="entry-meta">
+                  <ul>
+                    <li class="d-flex align-items-center">
+                      <!-- Ikon user -->
+                      <p> <i class="bi bi-person-circle" style="font-size: 1.5em; color: #007bff;"></i>
+                        {% if request.user.rejistu_set.exists %}
+                          {% with user=request.user.rejistu_set.first %}
+                            {{ user.naran|default:"Guest" }}
+                          {% endwith %}
+                        {% else %}
+                          Guest
+                        {% endif %}
+                      </p>
+                    </li>
+                    <li class="d-flex align-items-center">
+                      <!-- Ikon waktu -->
+                      <p> <i class="bi bi-calendar-event" style="font-size: 1.5em; color: #28a745;"></i> <time datetime="2020-01-01">{{ notisia.datapublika }}</time></p>
+                    </li>
+                  </ul>
+                </div>
+                
+            </article>        
+          </div>
+          <div class="col-lg-4">
+            <div class="sidebar">
+  
+              <h3 class="sidebar-title">{% trans "Peskija Informasaun" %}</h3>
+              <div class="sidebar-item search-form">
+                <form action="" method="get">
+                  <input type="text" id="peskijaInput" placeholder="Buka...">
+                  <button type=""><i class="bi bi-search"></i></button>
+                </form>
+              </div>
+              <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                  const input = document.getElementById("peskijaInput");
+                  const articles = document.querySelectorAll(".entry"); 
+              
+                  input.addEventListener("keyup", function () {
+                    const filter = input.value.toLowerCase();
+              
+                    articles.forEach(article => {
+                      const title = article.querySelector(".entry-title").innerText.toLowerCase();
+                      const content = article.querySelector(".entry-content").innerText.toLowerCase();
+              
+                      if (title.includes(filter) || content.includes(filter)) {
+                        article.style.display = "";
+                      } else {
+                        article.style.display = "none";
+                      }
+                    });
+                  });
+                });
+              </script>
+              <h3 class="sidebar-title">{% trans "Kategoria Informasaun" %}</h3>
+              <div class="sidebar-item categories">
+                <ul>
+                  {% for kat in kategorias %}
+                    <li>
+                      <a href="?kategoria={{ kat.slug }}">{{ kat.naran }} <span>({{ kat.total }})</span></a>
+                    </li>
+                  {% empty %}
+                    <li>{% trans "La iha kategoria." %}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <h3 class="sidebar-title">{% trans "Notisia Relevante" %}</h3>
+              <div class="sidebar-item recent-posts">
+                {% for item in notisiaseluk|slice:":3" %}
+                  <div class="post-item clearfix">
+                    <img src="{{ item.imajen.image.url }}" alt="" class="img-fluid">
+                    <h4><a href="{% url 'shownotisia' slug=item.slug %}">{{ item.titlu }}</a></h4>
+                    <time datetime="{{ item.data_publica }}">{{ item.data_publica|date:"M d, Y" }}</time>
+                  </div>
+                {% empty %}
+                  <p>{% trans "La iha notisia relevante." %}</p>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

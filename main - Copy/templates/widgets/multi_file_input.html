@@ -1,0 +1,5 @@
+{% if widget.attrs.multiple %}
+    <input type="file" name="{{ widget.name }}" id="{{ widget.attrs.id }}" class="{{ widget.attrs.class }}" multiple>
+{% else %}
+    <input type="file" name="{{ widget.name }}" id="{{ widget.attrs.id }}" class="{{ widget.attrs.class }}">
+{% endif %}

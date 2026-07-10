@@ -1,0 +1,166 @@
+{% extends "portal/kmbomenu.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block konteudu1 %}
+
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>{% trans "Atividade Sira" %}</h2>
+        <ol>
+          <li><a href="{% url 'dashboardkmbo' %}">{% trans "Baranda" %}</a></li>
+          <li>{% trans "Atividade Sira" %}</li>
+        </ol>
+      </div>
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  <!-- ======= Servisu KMBO Section ======= -->
+  <section id="servisu" class="services section-bg">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-title">
+        <h2>{% trans "Atividade Sira" %}</h2>
+        <p>{% trans "KMBO nia Programa no Servisu Prinsipál" %}</p>
+      </div>
+
+      <div class="row">
+        {% for atividade in atividade %}
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:"1" }}00">
+            <div class="icon-box iconbox-color{{ forloop.counter|divisibleby:2|yesno:'1,2' }}">
+              <div class="icon">
+                <i class="bx bx-task"></i>
+              </div>
+              <h4>{{ atividade.titlu }}</h4>
+              
+              <!-- Deskrisaun Preview + Full Text -->
+              <div class="atividade-description">
+                <div class="preview-text">{{ atividade.deskrisaun|truncatechars_html:100|safe }}</div>
+                <div class="full-text d-none">{{ atividade.deskrisaun|safe }}</div>
+                  <p>{{ dados.deskrisaun|safe }}</p>
+                <a href="#" class="toggle-btn btn">{% trans "Lee Detallu" %}</a>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <p class="text-center">{% trans "Atividade la iha." %}</p>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section><!-- End Servisu Section -->
+
+</main><!-- End #main -->
+
+<!-- ======= CSS furak ======= -->
+<style>
+.icon-box {
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid transparent;
+}
+.iconbox-color1 {
+    background-color: #e6f2ff;
+    border-color: #99ccff;
+}
+.iconbox-color2 {
+    background-color: #fff0e6;
+    border-color: #ffb366;
+}
+.icon-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+}
+.icon-box .icon {
+    font-size: 40px;
+    color: #2a71d0;
+    margin-bottom: 15px;
+}
+.icon-box h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #222;
+}
+.deskrisaun-text {
+    text-align: left;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    word-spacing: normal;  /* evita dok dok malu husi spacing barak */
+}
+
+
+/* Preview / Full Text */
+.atividade-description .preview-text {
+    text-align: left;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    word-spacing: normal;
+}
+.atividade-description .full-text {
+  text-align: left;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    word-spacing: normal;
+}
+.atividade-description .toggle-btn.btn {
+    background: rgb(9, 223, 209);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+.atividade-description .toggle-btn.btn:hover {
+    background: rgb(128, 71, 227);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .icon-box { margin-bottom: 20px; }
+}
+</style>
+
+<!-- ======= JS Toggle ======= -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.atividade-description').forEach(container => {
+    const btn = container.querySelector('.toggle-btn');
+    const preview = container.querySelector('.preview-text');
+    const full = container.querySelector('.full-text');
+
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      if(full.classList.contains('d-none')){
+        full.classList.remove('d-none');
+        preview.classList.add('d-none');
+        btn.innerText = "{% trans 'Taka Detallu' %}";
+      } else {
+        full.classList.add('d-none');
+        preview.classList.remove('d-none');
+        btn.innerText = "{% trans 'Lee Detallu' %}";
+      }
+    });
+  });
+});
+</script>
+
+{% endblock %}
