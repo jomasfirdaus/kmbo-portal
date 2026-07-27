@@ -10,13 +10,13 @@ DEBUG = False
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
 else:
-    ALLOWED_HOSTS = ["demo-kmbo.tualiqui.com", "kmbo.tl"]
+    ALLOWED_HOSTS = ["demo-kmbo.tualiqui.com", "kmbo.tl", "www.kmbo.tl"]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://demo-kmbo.tualiqui.com',
     'http://demo-kmbo.tualiqui.com',
-    'https://kmbo.tl',
-    'http://kmbo.tl',
+    'https://www.kmbo.tl',
+    'http://www.kmbo.tl',
 ]
 
 # ------------------ APPS ------------------
