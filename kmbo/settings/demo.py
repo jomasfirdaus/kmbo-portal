@@ -1,0 +1,35 @@
+import os
+from .base import *
+from decouple import config
+
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS').split(',')
+
+# See prod.py for why these exist; demo is just as public-facing as prod.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=bool)
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
+SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=31536000, cast=int)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+X_FRAME_OPTIONS = 'DENY'
+
+
+# MySQL Configuration for Demo
+DATABASES = {
+    'default': {
+        'ENGINE': config('DB_ENGINE'),
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
+        'TIME_ZONE': 'UTC',
+    },
+}

@@ -4,7 +4,8 @@
 *.pyc
 _pycache_
 db.sqlite3
-# media
+media
+.DB_STORE
 
 # Backup files # 
 *.bak 
@@ -135,3 +136,7 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# Others
+.txt
+media/
