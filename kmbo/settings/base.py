@@ -5,6 +5,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = config('SECRET_KEY')
+
 
 # ------------------ APPS ------------------
 INSTALLED_APPS = [
@@ -39,8 +42,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'kmbo.urls'
 
@@ -111,6 +112,25 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# ------------------ MINIO OBJECT STORAGE ------------------
+MINIO_ENDPOINT = config('MINIO_ENDPOINT')
+MINIO_ACCESS_KEY = config('MINIO_ACCESS_KEY')
+MINIO_SECRET_KEY = config('MINIO_SECRET_KEY')
+MINIO_BUCKET_NAME = config('MINIO_BUCKET_NAME')
+MINIO_USE_SSL = config('MINIO_USE_SSL', default=True, cast=bool)
+
+# Max allowed lifetime for a MinIO/S3 presigned URL is 7 days.
+MINIO_URL_EXPIRY_SECONDS = config('MINIO_URL_EXPIRY_SECONDS', default=604800, cast=int)
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'kmbo.storage.MinioMediaStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
 
 # ------------------ CKEDITOR ------------------
 CKEDITOR_UPLOAD_PATH = 'uploads/'

@@ -2,9 +2,9 @@
 *.log
 *.pot
 *.pyc
-_pycache_
+__pycache__/
 db.sqlite3
-media
+media/
 .DB_STORE
 
 # Backup files # 
@@ -119,8 +119,11 @@ venv.bak/
 *.sublime-workspace 
 *.sublime-project 
 
-# sftp configuration file 
-sftp-config.json 
+# sftp configuration file
+sftp-config.json
+
+# Claude Code
+.claude/
 
 # Package control specific files Package 
 Control.last-run 
@@ -136,7 +139,3 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
-
-# Others
-.txt
-media/

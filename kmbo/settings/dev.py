@@ -23,12 +23,3 @@ DATABASES = {
         'TIME_ZONE': 'Asia/Tokyo',
     },
 }
-
-
-# Minio Configuration for Development
-MINIO_END_POINT = config('MINIO_END_POINT')
-MINIO_BUCKET_NAME = config('MINIO_BUCKET_NAME')
-MINIO_ACCESS_KEY = config('MINIO_ACCESS_KEY')
-MINIO_SECRET_KEY = config('MINIO_SECRET_KEY')
-MINIO_REGION = config('MINIO_REGION')
-MINIO_USE_HTTPS = True
