@@ -15,6 +15,8 @@ else:
 CSRF_TRUSTED_ORIGINS = [
     'https://demo-kmbo.tualiqui.com',
     'http://demo-kmbo.tualiqui.com',
+    'https://kmbo.tl',
+    'http://kmbo.tl',
     'https://www.kmbo.tl',
     'http://www.kmbo.tl',
 ]
